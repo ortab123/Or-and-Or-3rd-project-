@@ -1,2 +1,13 @@
 C:\Users\OR\Downloads\ThirdYear - Semester A\Object-Oriented Programming using C# and The .NET Framework\Assinment_03\Ex03 Or 315900845 Or 314919994\ConsleUI\obj\Debug\ConsleUI.csproj.AssemblyReference.cache
 C:\Users\OR\Downloads\ThirdYear - Semester A\Object-Oriented Programming using C# and The .NET Framework\Assinment_03\Ex03 Or 315900845 Or 314919994\ConsleUI\obj\Debug\ConsleUI.csproj.CoreCompileInputs.cache
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\ConsleUI.exe.config
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\ConsleUI.exe
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\ConsleUI.pdb
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\Ex03.GarageLogic.dll
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\Ex03.GarageLogic.pdb
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\bin\Debug\Ex03.GarageLogic.dll.config
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\obj\Debug\ConsleUI.csproj.AssemblyReference.cache
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\obj\Debug\ConsleUI.csproj.CoreCompileInputs.cache
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\obj\Debug\ConsleUI.csproj.Up2Date
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\obj\Debug\ConsleUI.exe
+C:\Users\robix\Source\Repos\Or-and-Or-3rd-project-\ConsleUI\obj\Debug\ConsleUI.pdb
