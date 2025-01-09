@@ -73,8 +73,9 @@ namespace ConsleUI
 
                                 Console.WriteLine("Please enter engine volume (cc):");
                                 string engineVolumeString = Console.ReadLine();
+                                int engineVolume;
 
-                                while(!int.TryParse(engineVolumeString, out int engineVolume) || engineVolume < 0)
+                                while (!int.TryParse(engineVolumeString, out engineVolume) || engineVolume < 0)
                                 {
                                     Console.WriteLine("Invalid volume, try again:");
                                     engineVolumeString = Console.ReadLine();
@@ -85,8 +86,9 @@ namespace ConsleUI
 
                                 Console.WriteLine("Please enter current fuel amount:");
                                 string currentFuelString = Console.ReadLine();
+                                float currentFuelAmount;
 
-                                while(!float.TryParse(currentFuelString, out float currentFuelAmount)
+                                while (!float.TryParse(currentFuelString, out currentFuelAmount)
                                       || currentFuelAmount < 0)
                                 {
                                     Console.WriteLine("Invalid fuel amount, try again:");
@@ -109,39 +111,50 @@ namespace ConsleUI
                                 if(allTheSame == 'Y')
                                 {
                                     Console.WriteLine("Please enter tire brand:");
+                                    string oneBrandWheels = Console.ReadLine();
+
+                                    Console.WriteLine("Please enter tire pressure for wheels:");
+                                    float wheelPressure;
+
+                                    while (!float.TryParse(Console.ReadLine(), out wheelPressure)
+                                           || wheelPressure < 0)
+                                    {
+                                        Console.WriteLine("Invalid pressure amount, please enter a positive number:");
+                                    }
+
                                     for(int i = 0; i < numberOfWheels; i++)
                                     {
-
+                                       wheelsBrandsList.Add(oneBrandWheels);
+                                       wheelsPressureList.Add(wheelPressure);
                                     }
-                                    Console.ReadLine();
-                                    Console.WriteLine("Please enter tire pressure");
-                                    Console.ReadLine();
                                 }
                                 else
                                 {
-
                                     for(int i = 0; i < numberOfWheels; i++)
-
                                     {
                                         Console.WriteLine($"Please enter tire brand for wheel {i + 1}: ");
                                         wheelsBrandsList.Add(Console.ReadLine());
-
                                         Console.WriteLine($"Please enter tire pressure for wheel {i + 1}: ");
-
                                         float wheelPressure;
+
                                         while(!float.TryParse(Console.ReadLine(), out wheelPressure)
                                               || wheelPressure < 0)
                                         {
-                                            Console.WriteLine(
-                                                "Invalid pressure amount, please enter a positive number:");
+                                            Console.WriteLine("Invalid pressure amount, please enter a positive number:");
                                         }
 
                                         wheelsPressureList.Add(wheelPressure);
                                     }
                                 }
 
-
-
+                                FuelMotorcycle fuelMotorcycle = new FuelMotorcycle(
+                                                                    fuelMotorcycleModel,
+                                                                    licenseNumber,
+                                                                    currentFuelAmount,
+                                                                    wheelsPressureList,
+                                                                    wheelsBrandsList,
+                                                                    licenseType,
+                                                                    engineVolume) { };
                                 break;
                             case eVehicleType.ElectricMotorcycle:
                                 break;
