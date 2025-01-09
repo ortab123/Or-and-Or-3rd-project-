@@ -7,7 +7,7 @@ namespace Ex03_Or_315900845_Or_314919994
         private static readonly Garage sr_Instance = new Garage();
         private readonly List<VehicleInGarage> m_VehiclesInGarage;
 
-        private Garage()
+        public Garage()
         {
             m_VehiclesInGarage = new List<VehicleInGarage>();
         }
@@ -17,35 +17,29 @@ namespace Ex03_Or_315900845_Or_314919994
             return sr_Instance;
         }
 
-        public bool FindVehicleInGarage(Garage io_Garage, string i_VehicleLicenseNumber, out int o_Index)
+        public static string FindVehicleInGarage(ref Garage io_Garage, string i_VehicleLicenseNumber)
         {
-            o_Index = -1;
-            bool isFound = false;
+            
+            string isFoundMessage = null;
             int amount = io_Garage.m_VehiclesInGarage.Count;
+
             for(int i = 0; i < amount; i++)
             {
                 if(i_VehicleLicenseNumber == io_Garage.m_VehiclesInGarage[i].m_Vehicle.m_LicenseNumber)
                 {
-                    isFound = true;
-                    o_Index = i;
+                    isFoundMessage = "Vehicle already inside the Garage, changing status.";
+                    io_Garage.m_VehiclesInGarage[i].m_Status = eVehicleStatus.InRepair;
                 }
             }
-            return isFound;
+
+            return isFoundMessage;
         }
 
-        public void InsertNewVehicleToGarage(ref Garage io_Garage, string i_VehicleLicenseNumber)
+        public void InsertNewVehicleToGarage(ref Garage io_Garage, string i_VehicleLicenseNumber, eVehicleType i_Type)
         {
-            if(FindVehicleInGarage(io_Garage, i_VehicleLicenseNumber, out int index))
-            {
-                io_Garage.m_VehiclesInGarage[index].m_Status = eVehicleStatus.InRepair;
-                //למסור הודעה מתאימה שהרכב במאגר
-            }
-            else
-            {
-                
-            }
-        }
 
+        }
+     
         
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal abstract class Vehicle
+    public abstract class Vehicle
     {
         protected string m_ModelName { get; set; }
         public string m_LicenseNumber { get; set; }

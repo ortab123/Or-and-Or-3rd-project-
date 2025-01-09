@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class FuelMotorcycle : FuelVehicle
+    public class FuelMotorcycle : FuelVehicle
     {
         private const float k_MaxTirePressure = 32f;
         private const float k_FuelTankCapacity = 6.2f;

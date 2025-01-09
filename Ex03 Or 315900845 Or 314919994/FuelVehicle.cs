@@ -3,7 +3,7 @@
 namespace Ex03_Or_315900845_Or_314919994
 {
     // Maybe check for option to do it fully abstract:
-    internal abstract class FuelVehicle : Vehicle
+    public abstract class FuelVehicle : Vehicle
     {
         protected eFuelType m_FuelType { get; set; }
         protected float m_CurrentFuelTankAmount { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class Wheels
+    public class Wheels
     {
         public string m_BrandName { get; set; }
         private float m_MaxAirPressure { get; set; }
