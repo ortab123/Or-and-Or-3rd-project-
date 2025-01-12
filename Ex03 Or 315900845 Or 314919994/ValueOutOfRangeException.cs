@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class ValueOutOfRangeException : Exception
+    public class ValueOutOfRangeException : Exception
     {
         public float m_MaxValue { get; private set; }
         public float m_MinValue { get; private set; }

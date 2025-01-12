@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class Truck : FuelVehicle
+    public class Truck : FuelVehicle
     {
-        private const float k_MaxTirePressure = 29f;
-        private const float k_FuelTankCapacity = 125f;
+        public const float k_MaxTirePressure = 29f;
+        public const float k_FuelTankCapacity = 125f;
         private const eFuelType k_FuelType = eFuelType.Soler;
         private bool m_Refrigeration { set; get; }
         private float m_CargoVolume { set; get; }
@@ -30,6 +31,26 @@ namespace Ex03_Or_315900845_Or_314919994
             m_Refrigeration = i_Refrigeration;
             m_CargoVolume = i_CargoVolume;
             InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
+        }
+
+        public Truck()
+        {
+
+        }
+
+        public void SetCargoVolume(float i_CargoVolume)
+        {
+            if (i_CargoVolume <= 0)
+            {
+                throw new ArgumentException("Engine volume must be positive.");
+            }
+
+            m_CargoVolume = i_CargoVolume;
+        }
+
+        public void SetRefrigeration(bool i_Refrigation)
+        {
+            m_Refrigeration = i_Refrigation;
         }
 
         public sealed override StringBuilder PrintVehicleDetails()

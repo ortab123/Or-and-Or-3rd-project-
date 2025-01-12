@@ -20,5 +20,10 @@ namespace Ex03_Or_315900845_Or_314919994
             m_OwnerPhoneNumber = i_OwnerPhoneNumber;
             m_Status = eVehicleStatus.InRepair;
         }
+
+        public VehicleInGarage()
+        {
+
+        }
     }
 }

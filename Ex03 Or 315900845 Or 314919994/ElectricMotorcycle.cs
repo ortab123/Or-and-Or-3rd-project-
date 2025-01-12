@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class ElectricMotorcycle : ElectricVehicle
+    public class ElectricMotorcycle : ElectricVehicle
     {
-        private const float k_MaxTirePressure = 32f;
-        private const float k_BatteryTimeCapacity = 2.9F;
+        public const float k_MaxTirePressure = 32f;
+        public const float k_BatteryTimeCapacity = 2.9F;
 
         private eLicenseType m_LicenseType { get; set; }
         private int m_EngineVolume { get; set; }
@@ -36,6 +36,26 @@ namespace Ex03_Or_315900845_Or_314919994
             m_LicenseType = i_LicenseType;
             m_EngineVolume = i_EngineVolume;
             InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
+        }
+
+        public ElectricMotorcycle()
+        {
+
+        }
+
+        public void SetLicenseType(eLicenseType i_LicenseType)
+        {
+            m_LicenseType = i_LicenseType;
+        }
+
+        public void SetEngineVolume(int i_EngineVolume)
+        {
+            if (i_EngineVolume <= 0)
+            {
+                throw new ArgumentException("Engine volume must be positive.");
+            }
+
+            m_EngineVolume = i_EngineVolume;
         }
 
         public sealed override StringBuilder PrintVehicleDetails()

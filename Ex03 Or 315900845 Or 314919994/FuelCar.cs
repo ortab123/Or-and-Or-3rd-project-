@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class FuelCar : FuelVehicle
+    public class FuelCar : FuelVehicle
     {
-        private const float k_MaxTirePressure = 34f;
-        private const float k_FuelTankCapacity = 52f;
+        public const float k_MaxTirePressure = 34f;
+        public const float k_FuelTankCapacity = 52f;
         private const eFuelType k_FuelType = eFuelType.Octan95;
         private eCarColor m_Color { get; set; }
         private eDoorsNumber m_DoorsNumber { get; set; }
@@ -31,6 +31,21 @@ namespace Ex03_Or_315900845_Or_314919994
             m_Color = i_Color;
             m_DoorsNumber = i_DoorsNumber;
             InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
+        }
+
+        public FuelCar()
+        {
+
+        }
+
+        public void SetCarColor(eCarColor i_CarColor)
+        {
+            m_Color = i_CarColor;
+        }
+
+        public void SetCarDoorsAmount(eDoorsNumber i_DoorsNumber)
+        {
+            m_DoorsNumber = i_DoorsNumber;
         }
 
         public sealed override StringBuilder PrintVehicleDetails()

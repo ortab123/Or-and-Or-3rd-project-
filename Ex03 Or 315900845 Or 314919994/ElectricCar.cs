@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class ElectricCar : ElectricVehicle
+    public class ElectricCar : ElectricVehicle
     {
-        private const float k_MaxTirePressure = 34f;
+        public const float k_MaxTirePressure = 34f;
         private const float k_BatteryTimeCapacity = 5.4f;
         private eCarColor m_Color { get; set; }
         private eDoorsNumber m_DoorsNumber { get; set; }
@@ -29,6 +29,21 @@ namespace Ex03_Or_315900845_Or_314919994
             m_Color = i_Color;
             m_DoorsNumber = i_DoorsNumber;
             InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
+        }
+
+        public ElectricCar()
+        {
+
+        }
+
+        public void SetCarColor(eCarColor i_CarColor)
+        {
+            m_Color = i_CarColor;
+        }
+
+        public void SetCarDoorsAmount(eDoorsNumber i_DoorsNumber)
+        {
+            m_DoorsNumber = i_DoorsNumber;
         }
 
         public sealed override StringBuilder PrintVehicleDetails()

@@ -18,6 +18,16 @@ namespace Ex03_Or_315900845_Or_314919994
             m_EnergyPercentage = getEnergyPercentage();
         }
 
+        protected Vehicle()
+        {
+
+        }
+
+        public void SetVehicleModel(string i_Model) 
+        {
+            m_ModelName = i_Model;
+        }
+
         public static void ValidateTirePressure(float i_TirePressure, float i_TireMaxPressure)
         {
             if (i_TirePressure < 0 || i_TirePressure > i_TireMaxPressure)
@@ -47,7 +57,7 @@ namespace Ex03_Or_315900845_Or_314919994
 
         protected abstract float GetCurrentEnergy();
 
-        protected abstract float GetMaxEnergy();
+        public abstract float GetMaxEnergy();
 
         public abstract StringBuilder PrintVehicleDetails();
     }

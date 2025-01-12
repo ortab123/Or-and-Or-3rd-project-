@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
@@ -18,13 +19,33 @@ namespace Ex03_Or_315900845_Or_314919994
             : base(i_ModelName, i_LicenseNumber)
         {
 
-            validateFuelAmount(i_CurrentFuelAmount, i_FuelTankCapacity);
+            ValidateFuelAmount(i_CurrentFuelAmount, i_FuelTankCapacity);
             m_CurrentFuelTankAmount = i_CurrentFuelAmount;
             m_FuelTankCapacity = i_FuelTankCapacity;
             m_FuelType = i_FuelType;
         }
 
-        private static void validateFuelAmount(float i_FuelCurrentAmount, float i_FuelTankCapacity)
+        protected FuelVehicle()
+        {
+
+        }
+
+        public void SetCurrentFuelAmount(float i_FuelCurrentAmount)
+        {
+            m_CurrentFuelTankAmount = i_FuelCurrentAmount;
+        }
+
+        public void SetMaxFuelAmount(float i_MaxFuelAmount)
+        {
+            m_FuelTankCapacity = i_MaxFuelAmount;
+        }
+
+        public void SetFuelType(eFuelType i_FuelType)
+        {
+            m_FuelType = i_FuelType;
+        }
+
+        public static void ValidateFuelAmount(float i_FuelCurrentAmount, float i_FuelTankCapacity)
         {
             if (i_FuelCurrentAmount < 0 || i_FuelCurrentAmount > i_FuelTankCapacity)
             {
@@ -38,12 +59,12 @@ namespace Ex03_Or_315900845_Or_314919994
             return m_CurrentFuelTankAmount;
         }
 
-        protected override float GetMaxEnergy()
+        public override float GetMaxEnergy()
         {
             return m_FuelTankCapacity;
         }
 
-        protected eFuelType GetCurrentFuelType()
+        public eFuelType GetFuelType()
         {
             return m_FuelType;
         }
@@ -55,7 +76,7 @@ namespace Ex03_Or_315900845_Or_314919994
                 throw new ValueOutOfRangeException(0,(GetMaxEnergy() -GetCurrentEnergy()), $"The value is not in the range {0} to {(GetMaxEnergy() - GetCurrentEnergy())}.");
             }
 
-            if (i_FuelType != GetCurrentFuelType())
+            if (i_FuelType != GetFuelType())
             {
                 throw new ArgumentException("Please use the correct type of fuel");
             }

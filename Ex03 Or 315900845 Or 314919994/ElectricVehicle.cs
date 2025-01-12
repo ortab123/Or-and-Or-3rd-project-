@@ -3,10 +3,10 @@
 namespace Ex03_Or_315900845_Or_314919994
 {
     // Maybe check for option to do it fully abstract:
-    internal abstract class ElectricVehicle : Vehicle
+    public abstract class ElectricVehicle : Vehicle
     {
         protected float m_CurrentBatteryTimeLeft { get; private set; }
-        protected float m_BatteryTimeCapacity { get; }
+        protected float m_BatteryTimeCapacity { get; set; }
 
         protected ElectricVehicle(
             string i_ModelName,
@@ -16,12 +16,17 @@ namespace Ex03_Or_315900845_Or_314919994
             : base(i_ModelName, i_LicenseNumber)
         {
 
-            validateBatteryTime(i_BatteryCurrentAmount, i_BatteryTimeCapacity);
+            ValidateBatteryTime(i_BatteryCurrentAmount, i_BatteryTimeCapacity);
             m_BatteryTimeCapacity = i_BatteryTimeCapacity;
             m_CurrentBatteryTimeLeft = i_BatteryCurrentAmount;
         }
 
-        private static void validateBatteryTime(float i_BatteryCurrentAmount, float i_BatteryTimeCapacity)
+        protected ElectricVehicle()
+        {
+
+        }
+
+        public static void ValidateBatteryTime(float i_BatteryCurrentAmount, float i_BatteryTimeCapacity)
         {
             if (i_BatteryCurrentAmount < 0 || i_BatteryCurrentAmount > i_BatteryTimeCapacity)
             {
@@ -30,12 +35,22 @@ namespace Ex03_Or_315900845_Or_314919994
             }
         }
 
+        public void SetCurrentEnergy(float i_Hours)
+        {
+            m_CurrentBatteryTimeLeft = i_Hours;
+        }
+
+        public void SetMaxBatteryAmount(float i_BatteryTimeCapacity)
+        {
+            m_BatteryTimeCapacity = i_BatteryTimeCapacity;
+        }
+
         protected override float GetCurrentEnergy()
         {
             return m_CurrentBatteryTimeLeft;
         }
 
-        protected override float GetMaxEnergy()
+        public override float GetMaxEnergy()
         {
             return m_BatteryTimeCapacity;
         }
