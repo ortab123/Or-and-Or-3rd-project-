@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{08F26253-223D-46E5-B8DE-8523EC310303}|ConsleUI\\ConsleUI.csproj|C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\consleui\\consoleui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{08F26253-223D-46E5-B8DE-8523EC310303}|ConsleUI\\ConsleUI.csproj|c:\\users\\robix\\source\\repos\\or-and-or-3rd-project-\\consleui\\consoleui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{08F26253-223D-46E5-B8DE-8523EC310303}|ConsleUI\\ConsleUI.csproj|solutionrelative:consleui\\consoleui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|c:\\users\\robix\\source\\repos\\or-and-or-3rd-project-\\ex03 or 315900845 or 314919994\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|solutionrelative:ex03 or 315900845 or 314919994\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|c:\\users\\robix\\source\\repos\\or-and-or-3rd-project-\\ex03 or 315900845 or 314919994\\fuelvehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|solutionrelative:ex03 or 315900845 or 314919994\\fuelvehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|c:\\users\\robix\\source\\repos\\or-and-or-3rd-project-\\ex03 or 315900845 or 314919994\\garage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B74F0672-9DA3-4D18-AFC4-DE498E1BA348}|Ex03 Or 315900845 Or 314919994\\Ex03.GarageLogic.csproj|solutionrelative:ex03 or 315900845 or 314919994\\garage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,27 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Vehicle.cs",
-              "DocumentMoniker": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\Vehicle.cs",
-              "RelativeDocumentMoniker": "Ex03 Or 315900845 Or 314919994\\Vehicle.cs",
-              "ToolTip": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\Vehicle.cs",
-              "RelativeToolTip": "Ex03 Or 315900845 Or 314919994\\Vehicle.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA9wBkAAAAUAAAAAAAAAA==",
+              "Title": "Garage.cs",
+              "DocumentMoniker": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\Garage.cs",
+              "RelativeDocumentMoniker": "Ex03 Or 315900845 Or 314919994\\Garage.cs",
+              "ToolTip": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\Garage.cs",
+              "RelativeToolTip": "Ex03 Or 315900845 Or 314919994\\Garage.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAADoAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T12:24:41.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FuelVehicle.cs",
-              "DocumentMoniker": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\FuelVehicle.cs",
-              "RelativeDocumentMoniker": "Ex03 Or 315900845 Or 314919994\\FuelVehicle.cs",
-              "ToolTip": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\Ex03 Or 315900845 Or 314919994\\FuelVehicle.cs",
-              "RelativeToolTip": "Ex03 Or 315900845 Or 314919994\\FuelVehicle.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAswCgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T12:23:52.585Z",
+              "WhenOpened": "2025-01-12T13:24:35.786Z",
               "EditorCaption": ""
             },
             {
@@ -66,9 +49,9 @@
               "RelativeDocumentMoniker": "ConsleUI\\ConsoleUI.cs",
               "ToolTip": "C:\\Users\\robix\\source\\repos\\Or-and-Or-3rd-project-\\ConsleUI\\ConsoleUI.cs",
               "RelativeToolTip": "ConsleUI\\ConsoleUI.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAABBwE8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAA5wLgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T10:53:49.592Z",
+              "WhenOpened": "2025-01-12T13:21:03.969Z",
               "EditorCaption": ""
             }
           ]

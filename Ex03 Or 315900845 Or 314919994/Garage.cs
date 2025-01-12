@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
     public class Garage
     {
         private static readonly Garage sr_Instance = new Garage();
-        private readonly List<VehicleInGarage> m_VehiclesInGarage;
+        private readonly List<VehicleInGarage> r_VehiclesInGarage;
 
         public Garage()
         {
-            m_VehiclesInGarage = new List<VehicleInGarage>();
+            r_VehiclesInGarage = new List<VehicleInGarage>();
         }
 
         public static Garage GetInstance()
@@ -17,29 +18,45 @@ namespace Ex03_Or_315900845_Or_314919994
             return sr_Instance;
         }
 
-        public static string FindVehicleInGarage(ref Garage io_Garage, string i_VehicleLicenseNumber)
+        public void AddVehicle(VehicleInGarage i_VehicleInGarage)
         {
-            
-            string isFoundMessage = null;
-            int amount = io_Garage.m_VehiclesInGarage.Count;
-
-            for(int i = 0; i < amount; i++)
+            if (!FindVehicleInGarage(i_VehicleInGarage.m_Vehicle.m_LicenseNumber))
             {
-                if(i_VehicleLicenseNumber == io_Garage.m_VehiclesInGarage[i].m_Vehicle.m_LicenseNumber)
+                r_VehiclesInGarage.Add(i_VehicleInGarage);
+            }
+            else
+            {
+                throw new ArgumentException("A vehicle with this license number already exists in the garage.");
+            }
+        }
+
+        public bool FindVehicleInGarage(string i_LicenseNumber)
+        {
+            bool isFound = false;
+
+            foreach (VehicleInGarage vehicle in r_VehiclesInGarage)
+            {
+                if (vehicle.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
                 {
-                    isFoundMessage = "Vehicle already inside the Garage, changing status.";
-                    io_Garage.m_VehiclesInGarage[i].m_Status = eVehicleStatus.InRepair;
+                    isFound = true;
                 }
             }
 
-            return isFoundMessage;
+            return isFound;
         }
 
-        public void InsertNewVehicleToGarage(ref Garage io_Garage, string i_VehicleLicenseNumber)
+        public void UpdateVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
+            foreach (VehicleInGarage vehicle in r_VehiclesInGarage)
+            {
+                if (vehicle.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
+                {
+                    vehicle.m_Status = i_NewStatus;
+                    return;
+                }
+            }
 
+            throw new ArgumentException("Vehicle with the given license number was not found in the garage.");
         }
-     
-        
     }
 }

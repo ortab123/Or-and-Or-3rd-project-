@@ -13,26 +13,6 @@ namespace Ex03_Or_315900845_Or_314919994
         private bool m_Refrigeration { set; get; }
         private float m_CargoVolume { set; get; }
 
-        public Truck(
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_CurrentFuelAmount,
-            List<float> i_TirePressures,
-            List<string> i_TireBrands,
-            bool i_Refrigeration,
-            float i_CargoVolume)
-            : base(i_ModelName, i_LicenseNumber, i_CurrentFuelAmount, k_FuelTankCapacity, k_FuelType)
-        {
-            if (i_TirePressures.Count != 14 || i_TireBrands.Count != 14)
-            {
-                throw new ArgumentException("Trucks must have exactly 14 tires.");
-            }
-
-            m_Refrigeration = i_Refrigeration;
-            m_CargoVolume = i_CargoVolume;
-            InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
-        }
-
         public Truck()
         {
 

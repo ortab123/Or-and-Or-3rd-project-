@@ -12,32 +12,6 @@ namespace Ex03_Or_315900845_Or_314919994
         private eLicenseType m_LicenseType { get; set; }
         private int m_EngineVolume { get; set; }
 
-        public ElectricMotorcycle(
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_BatteryCurrentAmount,
-            List<float> i_TirePressures,
-            List<string> i_TireBrands,
-            eLicenseType i_LicenseType,
-            int i_EngineVolume)
-            : base(i_ModelName, i_LicenseNumber, i_BatteryCurrentAmount, k_BatteryTimeCapacity)
-        {
-            // NEED TO CHECK! ValueOutOfRange?
-            if (i_EngineVolume <= 0)
-            {
-                throw new ArgumentException("Engine volume must be positive.");
-            }
-
-            if (i_TirePressures.Count != 2 || i_TireBrands.Count != 2)
-            {
-                throw new ArgumentException("Motorcycles must have exactly 2.");
-            }
-
-            m_LicenseType = i_LicenseType;
-            m_EngineVolume = i_EngineVolume;
-            InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
-        }
-
         public ElectricMotorcycle()
         {
 

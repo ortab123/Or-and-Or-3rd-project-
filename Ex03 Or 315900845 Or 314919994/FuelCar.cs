@@ -13,26 +13,6 @@ namespace Ex03_Or_315900845_Or_314919994
         private eCarColor m_Color { get; set; }
         private eDoorsNumber m_DoorsNumber { get; set; }
 
-        public FuelCar(
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_CurrentFuelAmount,
-            List<float> i_TirePressures,
-            List<string> i_TireBrands,
-            eCarColor i_Color,
-            eDoorsNumber i_DoorsNumber)
-            : base(i_ModelName, i_LicenseNumber, i_CurrentFuelAmount, k_FuelTankCapacity, k_FuelType)
-        {
-            if (i_TirePressures.Count != 5 || i_TireBrands.Count != 5)
-            {
-                throw new ArgumentException("Cars must have exactly 5 tires (4 main + 1 reserve).");
-            }
-
-            m_Color = i_Color;
-            m_DoorsNumber = i_DoorsNumber;
-            InitializeWheels(i_TirePressures, i_TireBrands, k_MaxTirePressure);
-        }
-
         public FuelCar()
         {
 

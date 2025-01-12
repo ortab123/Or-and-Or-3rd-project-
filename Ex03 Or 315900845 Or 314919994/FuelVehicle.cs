@@ -10,21 +10,6 @@ namespace Ex03_Or_315900845_Or_314919994
         protected float m_CurrentFuelTankAmount { get; set; }
         protected float m_FuelTankCapacity { get; set; }
 
-        protected FuelVehicle(
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_CurrentFuelAmount,
-            float i_FuelTankCapacity,
-            eFuelType i_FuelType)
-            : base(i_ModelName, i_LicenseNumber)
-        {
-
-            ValidateFuelAmount(i_CurrentFuelAmount, i_FuelTankCapacity);
-            m_CurrentFuelTankAmount = i_CurrentFuelAmount;
-            m_FuelTankCapacity = i_FuelTankCapacity;
-            m_FuelType = i_FuelType;
-        }
-
         protected FuelVehicle()
         {
 

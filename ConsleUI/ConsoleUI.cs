@@ -76,23 +76,101 @@ namespace ConsleUI
                 licenseNumber = Console.ReadLine();
             }
 
-            string foundVehicleInGarage = Garage.FindVehicleInGarage(ref io_Garage, licenseNumber);
-
-            if (foundVehicleInGarage == null)
+            while (true)
             {
-                Console.WriteLine($"Please choose type of vehicle:{Environment.NewLine}1. FuelMotorcycle "
-                                  + $"{Environment.NewLine}2. ElectricMotorcycle{Environment.NewLine}3. FuelCar"
-                                  + $"{Environment.NewLine}4. ElectricCar{Environment.NewLine}5. Truck");
-                string vehicleTypeString = Console.ReadLine();
+                try
+                {
+                    if (io_Garage.FindVehicleInGarage(licenseNumber))
+                    {
+                        Console.WriteLine("Found the vehicle in the garage, changing it's status.");
+                        io_Garage.UpdateVehicleStatus(licenseNumber, eVehicleStatus.InRepair);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Please choose type of vehicle:{Environment.NewLine}1. FuelMotorcycle "
+                                          + $"{Environment.NewLine}2. ElectricMotorcycle{Environment.NewLine}3. FuelCar"
+                                          + $"{Environment.NewLine}4. ElectricCar{Environment.NewLine}5. Truck");
+                        string vehicleTypeString = Console.ReadLine();
 
-                Vehicle vehicle = handleVehicleType(vehicleTypeString, licenseNumber);
-                // Add contact details and add to list in garage
+                        Vehicle vehicle = handleVehicleType(vehicleTypeString, licenseNumber);
+                        string ownerPhoneNumber = getOwnerPhoneNumber();
+                        string ownerName = getOwnerName();
+                        VehicleInGarage vehicleInGarage = new VehicleInGarage(vehicle, ownerName, ownerPhoneNumber);
+
+                        io_Garage.AddVehicle(vehicleInGarage);
+                        Console.WriteLine("The vehicle has been successfully added to the garage.");
+                    }
+
+                    break;
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                }
             }
-            else
+        }
+
+        private static string getOwnerName()
+        {
+            while (true)
             {
-                Console.WriteLine("The vehicle is already in the garage.");
-                // Changing status!
+                Console.WriteLine("Please enter the owner's name:");
+                string ownerName = Console.ReadLine();
+
+                if (isValidOwnerName(ownerName))
+                {
+                    return ownerName; // Valid name
+                }
+                else
+                {
+                    Console.WriteLine("Invalid name. Please enter a name containing only letters and spaces.");
+                }
             }
+        }
+
+        private static bool isValidOwnerName(string i_OwnerName)
+        {
+            if (string.IsNullOrWhiteSpace(i_OwnerName))
+            {
+                return false;
+            }
+
+            foreach (char c in i_OwnerName)
+            {
+                if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static string getOwnerPhoneNumber()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please enter the owner's phone number (10 digits):");
+                string phoneNumber = Console.ReadLine();
+
+                if (isValidPhoneNumber(phoneNumber))
+                {
+                    return phoneNumber;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid phone number. Please enter exactly 10 digits.");
+                }
+            }
+        }
+
+        private static bool isValidPhoneNumber(string i_PhoneNumber)
+        {
+            return i_PhoneNumber.Length == 10 && long.TryParse(i_PhoneNumber, out _);
         }
 
         private static void handlePrintLicenses(ref Garage io_Garage)
@@ -149,8 +227,9 @@ namespace ConsleUI
                     Console.WriteLine("Invalid vehicle type.");
                     break;
             }
-        }
 
+            return vehicle;
+        }
 
         private static bool validateNumber(string i_ChosenNumber)
         {

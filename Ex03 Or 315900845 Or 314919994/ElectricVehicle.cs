@@ -8,19 +8,6 @@ namespace Ex03_Or_315900845_Or_314919994
         protected float m_CurrentBatteryTimeLeft { get; private set; }
         protected float m_BatteryTimeCapacity { get; set; }
 
-        protected ElectricVehicle(
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_BatteryCurrentAmount,
-            float i_BatteryTimeCapacity)
-            : base(i_ModelName, i_LicenseNumber)
-        {
-
-            ValidateBatteryTime(i_BatteryCurrentAmount, i_BatteryTimeCapacity);
-            m_BatteryTimeCapacity = i_BatteryTimeCapacity;
-            m_CurrentBatteryTimeLeft = i_BatteryCurrentAmount;
-        }
-
         protected ElectricVehicle()
         {
 

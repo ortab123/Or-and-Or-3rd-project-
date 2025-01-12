@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    internal class VehicleInGarage
+    public class VehicleInGarage
     {
         public Vehicle m_Vehicle { get; private set; }
         public string m_OwnerName { get; private set; }
