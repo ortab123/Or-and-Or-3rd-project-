@@ -27,7 +27,7 @@ namespace Ex03_Or_315900845_Or_314919994
             {
                 throw new ValueOutOfRangeException(0, i_TireMaxPressure);
             }
-        }
+        } 
 
         public void SetTireCurrentPressure(float i_TirePressure)
         {
@@ -71,11 +71,11 @@ namespace Ex03_Or_315900845_Or_314919994
             return maxWheelPressure;
         }
 
-        public static void SetAllWheelsDetails(List<Wheels> io_WheelsList, string i_Brand, 
+        public static void SetAllWheelsDetails(List<Wheels> i_WheelsList, string i_Brand, 
             float i_PressureInput, Vehicle i_Vehicle)
         {
             ValidateTirePressure(i_PressureInput, GetMaxWheelPressure(i_Vehicle));
-            foreach (Wheels wheel in io_WheelsList)
+            foreach (Wheels wheel in i_WheelsList)
             {
                 wheel.m_BrandName = i_Brand;
                 wheel.SetTireCurrentPressure(i_PressureInput);
@@ -98,62 +98,14 @@ namespace Ex03_Or_315900845_Or_314919994
             m_MaxAirPressure = maxPressure;
         }
 
-
-        //public static Wheels CreateWheel(Vehicle i_Vehicle, float i_WheelPressure)
-        //{
-        //    float maxWheelPressure;
-
-        //    if (i_Vehicle is FuelMotorcycle)
-        //    {
-        //        maxWheelPressure = FuelMotorcycle.k_MaxTirePressure;
-        //    }
-        //    else if (i_Vehicle is FuelCar)
-        //    {
-        //        maxWheelPressure = FuelCar.k_MaxTirePressure;
-        //    }
-        //    else if (i_Vehicle is Truck)
-        //    {
-        //        maxWheelPressure = Truck.k_MaxTirePressure;
-        //    }
-        //    else if (i_Vehicle is ElectricMotorcycle)
-        //    {
-        //        maxWheelPressure = ElectricMotorcycle.k_MaxTirePressure;
-        //    }
-        //    else if (i_Vehicle is ElectricCar)
-        //    {
-        //        maxWheelPressure = ElectricCar.k_MaxTirePressure;
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("Unsupported vehicle type.");
-        //    }
-
-        //    ValidateTirePressure(i_WheelPressure, maxWheelPressure);
-
-        //    Wheels wheel = new Wheels();
-        //    wheel.SetTireCurrentPressure(i_WheelPressure);
-        //    wheel.SetTireMaxPressure(maxWheelPressure);
-
-        //    return wheel;
-        //}
-
-
-        public void TireInflation(int i_PressureToAdd)
+        public void InflateToMax()
         {
-           Vehicle.ValidateTirePressure(i_PressureToAdd, m_MaxAirPressure);
-
-            if (i_PressureToAdd < 0)
+            if (m_CurrentAirPressure < m_MaxAirPressure)
             {
-                throw new ArgumentException("Pressure to add cannot be negative.");
+                m_CurrentAirPressure = m_MaxAirPressure;
             }
-
-            if (m_CurrentAirPressure + i_PressureToAdd > m_MaxAirPressure)
-            {
-                throw new InvalidOperationException("Inflating tire will exceed maximum air pressure.");
-            }
-
-            m_CurrentAirPressure += i_PressureToAdd;
         }
+
 
     }
 }

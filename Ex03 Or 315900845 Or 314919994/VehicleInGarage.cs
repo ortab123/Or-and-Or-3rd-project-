@@ -13,6 +13,13 @@ namespace Ex03_Or_315900845_Or_314919994
         public string m_OwnerPhoneNumber { get; private set; }
         public eVehicleStatus m_Status { get; set; }
 
+        public static readonly Dictionary<int, eVehicleStatus> sr_StatusMap = new Dictionary<int, eVehicleStatus>
+                                                                               {
+                                                                                   { 1, eVehicleStatus.InRepair },
+                                                                                   { 2, eVehicleStatus.Fixed },
+                                                                                   { 3, eVehicleStatus.Paid },
+                                                                               };
+
         public VehicleInGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             m_Vehicle = i_Vehicle;

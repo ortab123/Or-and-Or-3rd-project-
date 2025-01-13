@@ -40,6 +40,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapperHelper.cs" />
     <Compile Include="eFuelType.cs" />
     <Compile Include="ElectricCar.cs" />
     <Compile Include="eCarColor.cs" />

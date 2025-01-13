@@ -28,28 +28,6 @@ namespace Ex03_Or_315900845_Or_314919994
             m_ModelName = i_Model;
         }
 
-        public static void ValidateTirePressure(float i_TirePressure, float i_TireMaxPressure)
-        {
-            if (i_TirePressure < 0 || i_TirePressure > i_TireMaxPressure)
-            {
-                throw new ValueOutOfRangeException(0, i_TireMaxPressure);
-            }
-        }
-
-        protected void InitializeWheels(List<float> i_TirePressures, List<string> i_TireBrands, float i_MaxTirePressure)
-        {
-            if (i_TirePressures.Count != i_TireBrands.Count)
-            {
-                throw new ArgumentException("Tire pressures and brands must have the same number of elements.");
-            }
-
-            for (int i = 0; i < i_TirePressures.Count; i++)
-            {
-                ValidateTirePressure(i_TirePressures[i], i_MaxTirePressure);
-                m_Wheels.Add(new Wheels(i_MaxTirePressure, i_TirePressures[i], i_TireBrands[i]));
-            }
-        }
-
         private float getEnergyPercentage()
         {
             return (GetCurrentEnergy() / GetMaxEnergy()) * 100;
@@ -59,6 +37,15 @@ namespace Ex03_Or_315900845_Or_314919994
 
         public abstract float GetMaxEnergy();
 
+        public void InflateAllWheelsToMax()
+        {
+            foreach (Wheels wheel in m_Wheels)
+            {
+                wheel.InflateToMax();
+            }
+        }
+
         public abstract StringBuilder PrintVehicleDetails();
+
     }
 }

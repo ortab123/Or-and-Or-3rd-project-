@@ -42,10 +42,10 @@ namespace ConsleUI
                     handleInsertion(ref io_Garage);
                     break;
                 case eChoice.PrintLicenses:
-                    handlePrintLicenses(ref io_Garage);
+                    handlePrintLicenses(io_Garage);
                     break;
                 case eChoice.ChangeStatus:
-                    handleChangeStatus(ref io_Garage);
+                    handleChangeStatus(io_Garage);
                     break;
                 case eChoice.Inflate:
                     handleInflate(ref io_Garage);
@@ -65,7 +65,7 @@ namespace ConsleUI
             }
         }
 
-        private static void handleInsertion(ref Garage io_Garage)
+        private static string getValidatedLicenseNumber()
         {
             Console.WriteLine("Enter license number:");
             string licenseNumber = Console.ReadLine();
@@ -76,13 +76,20 @@ namespace ConsleUI
                 licenseNumber = Console.ReadLine();
             }
 
+            return licenseNumber;
+        }
+
+        private static void handleInsertion(ref Garage io_Garage)
+        {
+            string licenseNumber = getValidatedLicenseNumber();
+
             while (true)
             {
                 try
                 {
                     if (io_Garage.FindVehicleInGarage(licenseNumber))
                     {
-                        Console.WriteLine("Found the vehicle in the garage, changing it's status.");
+                        Console.WriteLine("Found the vehicle in the garage, changing its status.");
                         io_Garage.UpdateVehicleStatus(licenseNumber, eVehicleStatus.InRepair);
                     }
                     else
@@ -173,33 +180,58 @@ namespace ConsleUI
             return i_PhoneNumber.Length == 10 && long.TryParse(i_PhoneNumber, out _);
         }
 
-        private static void handlePrintLicenses(ref Garage io_Garage)
+        private static void handlePrintLicenses(Garage i_Garage)
         {
-
+            eVehicleStatus status = GetVehicleStatus();
+            List<string> vehiclesLicenseNumbers = i_Garage.FindVehiclesByStatus(status);
+            Console.WriteLine($"Printing license numbers by the status {status}:");
+            Console.WriteLine(vehiclesLicenseNumbers);
         }
 
-        private static void handleChangeStatus(ref Garage io_Garage)
+        private static void handleChangeStatus(Garage i_Garage)
         {
-
+            try
+            {
+                eVehicleStatus status = GetVehicleStatus();
+                string licenseNumber = getValidatedLicenseNumber();
+                i_Garage.UpdateVehicleStatus(licenseNumber, status);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        private static void handleInflate(ref Garage io_Garage)
+        private static void handleInflate(Garage i_Garage)
         {
+            string licenseNumber = getValidatedLicenseNumber();
 
+            bool isVehicleFound = i_Garage.InflateVehicleWheels(licenseNumber);
+
+            if (!isVehicleFound)
+            {
+                Console.WriteLine($"A vehicle with the license number '{licenseNumber}' does not exist in the garage.");
+            }
+            else
+            {
+                Console.WriteLine($"All wheels of the vehicle with license number '{licenseNumber}' have been inflated to their maximum pressure.");
+            }
         }
 
         private static void handleRefuel(ref Garage io_Garage)
         {
-
+            // Need to implement
         }
 
         private static void handleRecharge(ref Garage io_Garage)
         {
+            // Need to implement
 
         }
 
         private static void handlePrintDetails(ref Garage io_Garage)
         {
+            // Need to implement
 
         }
 
@@ -259,7 +291,7 @@ namespace ConsleUI
             fuelMotorcycle.m_LicenseNumber = i_LicenseNumber;
             fuelMotorcycle.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
             List<Wheels> wheelsList = new List<Wheels>(2);
-            getWheelsDetails(ref wheelsList, fuelMotorcycle);
+            getWheelsDetails(wheelsList, fuelMotorcycle);
 
             return fuelMotorcycle;
         }
@@ -277,7 +309,7 @@ namespace ConsleUI
             electricMotorcycle.m_LicenseNumber = i_LicenseNumber;
             electricMotorcycle.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
             List<Wheels> wheelsList = new List<Wheels>(2);
-            getWheelsDetails(ref wheelsList, electricMotorcycle);
+            getWheelsDetails(wheelsList, electricMotorcycle);
 
             return electricMotorcycle;
         }
@@ -296,7 +328,7 @@ namespace ConsleUI
             fuelCar.m_LicenseNumber = i_LicenseNumber;
             fuelCar.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
             List<Wheels> wheelsList = new List<Wheels>(5);
-            getWheelsDetails(ref wheelsList, fuelCar);
+            getWheelsDetails(wheelsList, fuelCar);
 
             return fuelCar;
         }
@@ -314,7 +346,7 @@ namespace ConsleUI
             electricCar.m_LicenseNumber = i_LicenseNumber;
             electricCar.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
             List<Wheels> wheelsList = new List<Wheels>(5);
-            getWheelsDetails(ref wheelsList, electricCar);
+            getWheelsDetails(wheelsList, electricCar);
 
             return electricCar;
         }
@@ -333,7 +365,7 @@ namespace ConsleUI
             truck.m_LicenseNumber = i_LicenseNumber;
             truck.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
             List<Wheels> wheelsList = new List<Wheels>(14);
-            getWheelsDetails(ref wheelsList, truck);
+            getWheelsDetails(wheelsList, truck);
 
             return truck;
         }
@@ -377,133 +409,66 @@ namespace ConsleUI
             }
         }
 
-        private static eLicenseType stringToLicenseType(string i_LicenseTypeString)
-        {
-            var licenseTypesMap = new Dictionary<string, eLicenseType>
-                                      {
-                                          { "1", eLicenseType.A1 },
-                                          { "2", eLicenseType.A2 },
-                                          { "3", eLicenseType.B1 },
-                                          { "4", eLicenseType.B2 },
-                                      };
-
-            licenseTypesMap.TryGetValue(i_LicenseTypeString, out var choice);
-
-            return choice;
-        }
-
         private static eLicenseType getLicenseType()
         {
-            Console.WriteLine($"Please choose type of license:{Environment.NewLine}1. A1"
-                              + $"{Environment.NewLine}2. A2{Environment.NewLine}3. B1"
-                              + $"{Environment.NewLine}4. B2");
-            string licenseTypeString = Console.ReadLine();
-            eLicenseType licenseType;
-
             while (true)
             {
-
-                while (!int.TryParse(licenseTypeString, out int value) || value > 4 || value < 1)
+                Console.WriteLine("Please choose the type of license:");
+                foreach (var license in MapperHelper.sr_LicenseMap)
                 {
-                    Console.WriteLine("Invalid input. Please enter a number between 0 and 4.");
-                    licenseTypeString = Console.ReadLine();
+                    Console.WriteLine($"{license.Key}. {license.Value}");
                 }
 
-                try
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && MapperHelper.sr_LicenseMap.ContainsKey(choice))
                 {
-                    licenseType = stringToLicenseType(licenseTypeString);
-                    return licenseType;
+                    return MapperHelper.sr_LicenseMap[choice];
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a license type.");
             }
-        }
-
-        private static eCarColor stringToCarColor(string i_ColorString)
-        {
-            var carColorsMap = new Dictionary<string, eCarColor>
-                                   {
-                                       { "1", eCarColor.Blue },
-                                       { "2", eCarColor.Black },
-                                       { "3", eCarColor.White },
-                                       { "4", eCarColor.Gray },
-                                   };
-
-            carColorsMap.TryGetValue(i_ColorString, out var choice);
-
-            return choice;
         }
 
         private static eCarColor getCarColor()
         {
-            Console.WriteLine($"Please choose a car color:{Environment.NewLine}1. Blue"
-                              + $"{Environment.NewLine}2. Black{Environment.NewLine}3. White"
-                              + $"{Environment.NewLine}4. Gray");
-            string colorString = Console.ReadLine();
-            eCarColor carColor;
-
             while (true)
             {
-                while (!int.TryParse(colorString, out int value) || value > 4 || value < 1)
+                Console.WriteLine("Please choose a car color:");
+                foreach (var color in MapperHelper.sr_ColorMap)
                 {
-                    Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
-                    colorString = Console.ReadLine();
+                    Console.WriteLine($"{color.Key}. {color.Value}");
                 }
 
-                try
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && MapperHelper.sr_ColorMap.ContainsKey(choice))
                 {
-                    carColor = stringToCarColor(colorString);
-                    return carColor;
+                    return MapperHelper.sr_ColorMap[choice];
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a car color.");
             }
-        }
-
-        private static eDoorsNumber stringToDoorsNumber(string i_DoorsString)
-        {
-            var doorsNumberMap = new Dictionary<string, eDoorsNumber>
-                                     {
-                                         { "1", eDoorsNumber.Two },
-                                         { "2", eDoorsNumber.Three },
-                                         { "3", eDoorsNumber.Four },
-                                         { "4", eDoorsNumber.Five },
-                                     };
-
-            doorsNumberMap.TryGetValue(i_DoorsString, out var choice);
-
-            return choice;
         }
 
         private static eDoorsNumber getDoorsNumber()
         {
-            Console.WriteLine($"Please choose the number of doors:{Environment.NewLine}1. Two"
-                              + $"{Environment.NewLine}2. Three{Environment.NewLine}3. Four"
-                              + $"{Environment.NewLine}4. Five");
-            string doorsNumberString = Console.ReadLine();
-            eDoorsNumber doorsNumber;
-
             while (true)
             {
-                while (!int.TryParse(doorsNumberString, out int value) || value < 1 || value > 4)
+                Console.WriteLine("Please choose the number of doors:");
+                foreach (var door in MapperHelper.sr_DoorsMap)
                 {
-                    Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
-                    doorsNumberString = Console.ReadLine();
+                    Console.WriteLine($"{door.Key}. {door.Value}");
                 }
 
-                try
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && MapperHelper.sr_DoorsMap.ContainsKey(choice))
                 {
-                    doorsNumber = stringToDoorsNumber(doorsNumberString);
-                    return doorsNumber;
+                    return MapperHelper.sr_DoorsMap[choice];
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a door count.");
             }
         }
 
@@ -566,7 +531,7 @@ namespace ConsleUI
             return vehicleModel;
         }
 
-        private static void getWheelsDetails(ref List<Wheels> io_WheelsList, Vehicle i_Vehicle)
+        private static void getWheelsDetails(List<Wheels> WheelsList, Vehicle i_Vehicle)
         {
             Console.WriteLine("Are all your wheels the same brand and tire pressure? (y/n):");
             char choice = char.Parse(Console.ReadLine().ToUpper());
@@ -585,11 +550,11 @@ namespace ConsleUI
                     string brand = Console.ReadLine();
                     Console.WriteLine("Enter tire pressure:");
                     float pressureInput = float.Parse(Console.ReadLine());
-                    Wheels.SetAllWheelsDetails(io_WheelsList, brand, pressureInput, i_Vehicle);
+                    Wheels.SetAllWheelsDetails(WheelsList, brand, pressureInput, i_Vehicle);
                 }
                 else
                 {
-                    for (int i = 0; i < io_WheelsList.Count; i++)
+                    for (int i = 0; i < WheelsList.Count; i++)
                     {
                         Console.WriteLine($"Enter tire brand for wheel {i + 1}:");
                         string brand = Console.ReadLine();
@@ -597,7 +562,7 @@ namespace ConsleUI
                         Console.WriteLine($"Enter tire pressure for wheel {i + 1}:");
                         float pressure = float.Parse(Console.ReadLine());
 
-                        io_WheelsList[i].SetDetails(brand, pressure, i_Vehicle);
+                        WheelsList[i].SetDetails(brand, pressure, i_Vehicle);
                     }
                 }
             }
@@ -659,6 +624,7 @@ namespace ConsleUI
 
             return choice == 'Y';
         }
+
         private static float getCargoVolume()
         {
             while (true)
@@ -686,6 +652,26 @@ namespace ConsleUI
             }
         }
 
+        public static eVehicleStatus GetVehicleStatus()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please choose a vehicle status:");
+                foreach (var status in VehicleInGarage.sr_StatusMap)
+                {
+                    Console.WriteLine($"{status.Key}. {status.Value}");
+                }
+
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && VehicleInGarage.sr_StatusMap.ContainsKey(choice))
+                {
+                    return VehicleInGarage.sr_StatusMap[choice];
+                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a vehicle status.");
+            }
+        }
 
         private static eChoice? stringToChoice(string i_CustomerChoice)
         {

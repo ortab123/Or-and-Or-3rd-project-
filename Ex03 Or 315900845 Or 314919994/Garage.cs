@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
@@ -34,9 +35,9 @@ namespace Ex03_Or_315900845_Or_314919994
         {
             bool isFound = false;
 
-            foreach (VehicleInGarage vehicle in r_VehiclesInGarage)
+            foreach (VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
             {
-                if (vehicle.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
+                if (vehicleInGarage.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
                 {
                     isFound = true;
                 }
@@ -58,5 +59,36 @@ namespace Ex03_Or_315900845_Or_314919994
 
             throw new ArgumentException("Vehicle with the given license number was not found in the garage.");
         }
+
+        public List<string> FindVehiclesByStatus(eVehicleStatus i_Status)
+        {
+            List<string> licenseNumbers = new List<string>();
+            foreach(VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
+            {
+                if (vehicleInGarage.m_Status == i_Status)
+                {
+                    licenseNumbers.Add(vehicleInGarage.m_Vehicle.m_LicenseNumber);
+                }
+            }
+
+            return licenseNumbers;
+        }
+
+        public bool InflateVehicleWheels(string i_LicenseNumber)
+        {
+            bool isInflated = false;
+            foreach (VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
+            {
+                if (vehicleInGarage.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
+                {
+                    vehicleInGarage.m_Vehicle.InflateAllWheelsToMax();
+                    isInflated = true ;
+                }
+            }
+
+            return isInflated;
+        }
+
+
     }
 }
