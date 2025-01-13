@@ -36,10 +36,12 @@ namespace ConsleUI
 
         private static void handleCustomerChoice(string i_CustomerChoice, ref Garage io_Garage)
         {
+            // After implementation of the 3 methods check if ref word is needed and also io_ 
+
             switch (stringToChoice(i_CustomerChoice))
             {
                 case eChoice.Insert:
-                    handleInsertion(ref io_Garage);
+                    handleInsertion( io_Garage);
                     break;
                 case eChoice.PrintLicenses:
                     handlePrintLicenses(io_Garage);
@@ -48,7 +50,7 @@ namespace ConsleUI
                     handleChangeStatus(io_Garage);
                     break;
                 case eChoice.Inflate:
-                    handleInflate(ref io_Garage);
+                    handleInflate(io_Garage);
                     break;
                 case eChoice.Refuel:
                     handleRefuel(ref io_Garage);
@@ -79,7 +81,7 @@ namespace ConsleUI
             return licenseNumber;
         }
 
-        private static void handleInsertion(ref Garage io_Garage)
+        private static void handleInsertion(Garage i_Garage)
         {
             string licenseNumber = getValidatedLicenseNumber();
 
@@ -87,10 +89,10 @@ namespace ConsleUI
             {
                 try
                 {
-                    if (io_Garage.FindVehicleInGarage(licenseNumber))
+                    if (i_Garage.FindVehicleInGarage(licenseNumber))
                     {
                         Console.WriteLine("Found the vehicle in the garage, changing its status.");
-                        io_Garage.UpdateVehicleStatus(licenseNumber, eVehicleStatus.InRepair);
+                        i_Garage.UpdateVehicleStatus(licenseNumber, eVehicleStatus.InRepair);
                     }
                     else
                     {
@@ -104,7 +106,7 @@ namespace ConsleUI
                         string ownerName = getOwnerName();
                         VehicleInGarage vehicleInGarage = new VehicleInGarage(vehicle, ownerName, ownerPhoneNumber);
 
-                        io_Garage.AddVehicle(vehicleInGarage);
+                        i_Garage.AddVehicle(vehicleInGarage);
                         Console.WriteLine("The vehicle has been successfully added to the garage.");
                     }
 
@@ -130,7 +132,7 @@ namespace ConsleUI
 
                 if (isValidOwnerName(ownerName))
                 {
-                    return ownerName; // Valid name
+                    return ownerName;
                 }
                 else
                 {
@@ -220,19 +222,48 @@ namespace ConsleUI
 
         private static void handleRefuel(ref Garage io_Garage)
         {
-            // Need to implement
+            // After implementation check if ref word is needed and also io_ 
+            string licenseNumber = getValidatedLicenseNumber();
+
+            // Get fuel type from user
+            // Get fuel amount from user
+            // Use try-catch -> ReFuel should throw:
+            //                                  ValueOutOfRangeException
+            //                                  ArgumentException
         }
 
         private static void handleRecharge(ref Garage io_Garage)
         {
-            // Need to implement
+        // After implementation check if ref word is needed and also io_ 
+            string licenseNumber = getValidatedLicenseNumber();
+
+            // Get time by minutes from user
+            // Convert to hours
+            // Use try-catch -> ReCharge should throw ValueOutOfRangeException
 
         }
 
         private static void handlePrintDetails(ref Garage io_Garage)
         {
-            // Need to implement
+            // After implementation check if ref word is needed and also io_ 
+            string licenseNumber = getValidatedLicenseNumber();
 
+            // Find this specific vehicle
+            // use Vehicle.PrintDetails -> its polymorph!
+        }
+
+        private static bool validateNumber(string i_ChosenNumber)
+        {
+            bool isValidated = false;
+            if (int.TryParse(i_ChosenNumber, out int result))
+            {
+                if (result < 8 && result > 0)
+                {
+                    isValidated = true;
+                }
+            }
+
+            return isValidated;
         }
 
         private static Vehicle handleVehicleType(string i_VehicleTypeString, string i_LicenseNumber)
@@ -263,20 +294,6 @@ namespace ConsleUI
             return vehicle;
         }
 
-        private static bool validateNumber(string i_ChosenNumber)
-        {
-            bool isValidated = false;
-            if (int.TryParse(i_ChosenNumber, out int result))
-            {
-                if (result < 8 && result > 0)
-                {
-                    isValidated = true;
-                }
-            }
-
-            return isValidated;
-        }
-
         private static FuelMotorcycle fuelMotorcycleAdding(string i_LicenseNumber)
         {
             FuelMotorcycle fuelMotorcycle = new FuelMotorcycle();
@@ -284,14 +301,9 @@ namespace ConsleUI
             fuelMotorcycle.SetLicenseType(getLicenseType());
             setMotorcycleEngine(fuelMotorcycle);
 
-            fuelMotorcycle.SetFuelType(fuelMotorcycle.GetFuelType());
-            fuelMotorcycle.SetMaxFuelAmount(FuelMotorcycle.k_FuelTankCapacity);
-            setFuelVehicleCurrentAmount(fuelMotorcycle);
+            initializeFuelVehicle(fuelMotorcycle);
 
-            fuelMotorcycle.m_LicenseNumber = i_LicenseNumber;
-            fuelMotorcycle.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
-            List<Wheels> wheelsList = new List<Wheels>(2);
-            getWheelsDetails(wheelsList, fuelMotorcycle);
+            initializeVehicleDetails(fuelMotorcycle, i_LicenseNumber, "Fuel Motorcycle", 2);
 
             return fuelMotorcycle;
         }
@@ -303,13 +315,9 @@ namespace ConsleUI
             electricMotorcycle.SetLicenseType(getLicenseType());
             setMotorcycleEngine(electricMotorcycle);
 
-            electricMotorcycle.SetMaxBatteryAmount(ElectricMotorcycle.k_BatteryTimeCapacity);
-            setBatteryTimeLeft(electricMotorcycle);
+            initializeBatteryVehicle(electricMotorcycle);
 
-            electricMotorcycle.m_LicenseNumber = i_LicenseNumber;
-            electricMotorcycle.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
-            List<Wheels> wheelsList = new List<Wheels>(2);
-            getWheelsDetails(wheelsList, electricMotorcycle);
+            initializeVehicleDetails(electricMotorcycle, i_LicenseNumber, "Electric Motorcycle", 2);
 
             return electricMotorcycle;
         }
@@ -321,14 +329,9 @@ namespace ConsleUI
             fuelCar.SetCarColor(getCarColor());
             fuelCar.SetCarDoorsAmount(getDoorsNumber());
 
-            fuelCar.SetFuelType(fuelCar.GetFuelType());
-            fuelCar.SetMaxFuelAmount(FuelMotorcycle.k_FuelTankCapacity);
-            setFuelVehicleCurrentAmount(fuelCar);
+            initializeFuelVehicle(fuelCar);
 
-            fuelCar.m_LicenseNumber = i_LicenseNumber;
-            fuelCar.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
-            List<Wheels> wheelsList = new List<Wheels>(5);
-            getWheelsDetails(wheelsList, fuelCar);
+            initializeVehicleDetails(fuelCar, i_LicenseNumber, "Fuel Car", 5);
 
             return fuelCar;
         }
@@ -340,13 +343,9 @@ namespace ConsleUI
             electricCar.SetCarColor(getCarColor());
             electricCar.SetCarDoorsAmount(getDoorsNumber());
 
-            electricCar.SetMaxBatteryAmount(ElectricMotorcycle.k_BatteryTimeCapacity);
-            setBatteryTimeLeft(electricCar);
+            initializeBatteryVehicle(electricCar);
 
-            electricCar.m_LicenseNumber = i_LicenseNumber;
-            electricCar.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
-            List<Wheels> wheelsList = new List<Wheels>(5);
-            getWheelsDetails(wheelsList, electricCar);
+            initializeVehicleDetails(electricCar, i_LicenseNumber, "Electric Car", 5);
 
             return electricCar;
         }
@@ -358,16 +357,33 @@ namespace ConsleUI
             truck.SetCargoVolume(getCargoVolume());
             truck.SetRefrigeration(getRefrigeration());
 
-            truck.SetFuelType(truck.GetFuelType());
-            truck.SetMaxFuelAmount(FuelMotorcycle.k_FuelTankCapacity);
-            setFuelVehicleCurrentAmount(truck);
+            initializeFuelVehicle(truck);
 
-            truck.m_LicenseNumber = i_LicenseNumber;
-            truck.SetVehicleModel(getVehicleModel("Fuel motorcycle"));
-            List<Wheels> wheelsList = new List<Wheels>(14);
-            getWheelsDetails(wheelsList, truck);
+            initializeVehicleDetails(truck, i_LicenseNumber, "Truck", 14);
 
             return truck;
+        }
+
+        private static void initializeFuelVehicle(FuelVehicle i_Vehicle)
+        {
+            i_Vehicle.SetFuelType(i_Vehicle.GetFuelType());
+            i_Vehicle.SetMaxFuelAmount(i_Vehicle.GetMaxEnergy());
+            setFuelVehicleCurrentAmount(i_Vehicle);
+        }
+
+        private static void initializeBatteryVehicle(ElectricVehicle i_Vehicle)
+        {
+            i_Vehicle.SetMaxBatteryAmount(i_Vehicle.GetMaxEnergy());
+            setBatteryTimeLeft(i_Vehicle);
+        }
+
+        private static void initializeVehicleDetails(Vehicle i_Vehicle, string i_LicenseNumber,
+            string i_Prompt, int i_WheelsCount)
+        {
+            i_Vehicle.m_LicenseNumber = i_LicenseNumber;
+            i_Vehicle.SetVehicleModel(getVehicleModel(i_Prompt));
+            List<Wheels> wheelsList = new List<Wheels>(i_WheelsCount);
+            getWheelsDetails(wheelsList, i_Vehicle);
         }
 
         private static void setMotorcycleEngine(Vehicle i_Motorcycle)

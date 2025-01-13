@@ -7,7 +7,7 @@ namespace Ex03_Or_315900845_Or_314919994
     public class ElectricCar : ElectricVehicle
     {
         public const float k_MaxTirePressure = 34f;
-        private const float k_BatteryTimeCapacity = 5.4f;
+        public const float k_BatteryTimeCapacity = 5.4f;
         private eCarColor m_Color { get; set; }
         private eDoorsNumber m_DoorsNumber { get; set; }
 
