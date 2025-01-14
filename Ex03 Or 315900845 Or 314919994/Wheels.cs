@@ -5,14 +5,14 @@ namespace Ex03_Or_315900845_Or_314919994
 {
     public class Wheels
     {
-        public string m_BrandName { get; set; }
+        public string m_ManufacturerName { get; set; }
         private float m_MaxAirPressure { get; set; }
         public float m_CurrentAirPressure { get; set; }
 
         public Wheels(float i_MaxAirPressure, float i_CurrentAirPressure, string i_BrandName)
         {
             m_MaxAirPressure = i_MaxAirPressure;
-            m_BrandName = i_BrandName;
+            m_ManufacturerName = i_BrandName;
             m_CurrentAirPressure = i_CurrentAirPressure;
         }
 
@@ -77,7 +77,7 @@ namespace Ex03_Or_315900845_Or_314919994
             ValidateTirePressure(i_PressureInput, GetMaxWheelPressure(i_Vehicle));
             foreach (Wheels wheel in i_WheelsList)
             {
-                wheel.m_BrandName = i_Brand;
+                wheel.m_ManufacturerName = i_Brand;
                 wheel.SetTireCurrentPressure(i_PressureInput);
                 wheel.SetTireMaxPressure(GetMaxWheelPressure(i_Vehicle));
             }
@@ -93,7 +93,7 @@ namespace Ex03_Or_315900845_Or_314919994
             float maxPressure = GetMaxWheelPressure(i_Vehicle);
             ValidateTirePressure(i_Pressure, maxPressure);
 
-            m_BrandName = i_BrandName;
+            m_ManufacturerName = i_BrandName;
             m_CurrentAirPressure = i_Pressure;
             m_MaxAirPressure = maxPressure;
         }
@@ -105,7 +105,5 @@ namespace Ex03_Or_315900845_Or_314919994
                 m_CurrentAirPressure = m_MaxAirPressure;
             }
         }
-
-
     }
 }

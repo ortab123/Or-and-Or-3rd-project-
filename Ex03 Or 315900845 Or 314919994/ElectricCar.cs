@@ -31,7 +31,7 @@ namespace Ex03_Or_315900845_Or_314919994
             string tiresDetails = "Tires:" + Environment.NewLine;
             for (int i = 0; i < m_Wheels.Count; i++)
             {
-                tiresDetails += $"   - Tire {i + 1}: {m_Wheels[i].m_CurrentAirPressure} psi, {m_Wheels[i].m_BrandName}" + Environment.NewLine;
+                tiresDetails += $"   - Tire {i + 1}: {m_Wheels[i].m_CurrentAirPressure} psi, {m_Wheels[i].m_ManufacturerName}" + Environment.NewLine;
             }
 
             StringBuilder vehicleDetails = new StringBuilder();

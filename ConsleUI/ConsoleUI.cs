@@ -223,8 +223,78 @@ namespace ConsleUI
         private static void handleRefuel(ref Garage io_Garage)
         {
             // After implementation check if ref word is needed and also io_ 
-            string licenseNumber = getValidatedLicenseNumber();
+            string resultMessage;
 
+            try
+            {
+                string licenseNumber = getValidatedLicenseNumber();
+
+                if (!io_Garage.FindVehicleInGarage(licenseNumber))
+                {
+                    Console.WriteLine("Vehicle not found in the garage. Would you like to add it? (Y/N)");
+                    char addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
+
+                    while (addVehicleChoice != 'Y' && addVehicleChoice != 'N')
+                    {
+                        Console.WriteLine("Invalid choice. Please enter Y (yes) or N (no):");
+                        addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
+                    }
+
+                    if (addVehicleChoice == 'Y')
+                    {
+                        handleInsertion(io_Garage);
+                        Console.WriteLine("Vehicle added to the garage. You can now refuel it.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Operation canceled.");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (vehicleInGarage.Vehicle is FuelVehicle fuelVehicle)
+                    {
+                        Console.WriteLine("Please enter fuel type (1. Soler, 2. Octan95, 3. Octan96, 4. Octan98):");
+                        string fuelTypeString = Console.ReadLine();
+
+                        if (Enum.TryParse(fuelTypeString, out eFuelType fuelType))
+                        {
+                            Console.WriteLine("Please enter amount of fuel to add:");
+                            string fuelAmountString = Console.ReadLine();
+
+                            if (float.TryParse(fuelAmountString, out float fuelAmount) && fuelAmount >= 0)
+                            {
+                                //How do we approached to refuel ?
+                                fuelVehicle.ReFuel(fuelType, fuelAmount);
+                                resultMessage = "Vehicle refueled successfully!";
+                            }
+                            else
+                            {
+                                resultMessage = "Invalid fuel amount.";
+                            }
+                        }
+                        else
+                        {
+                            resultMessage = "Invalid fuel type.";
+                        }
+                    }
+                    else
+                    {
+                        resultMessage = "This vehicle does not support refueling.";
+                    }
+                }
+            }
+            catch (ValueOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            Console.WriteLine(resultMessage);
             // Get fuel type from user
             // Get fuel amount from user
             // Use try-catch -> ReFuel should throw:
@@ -234,14 +304,65 @@ namespace ConsleUI
 
         private static void handleRecharge(ref Garage io_Garage)
         {
-        // After implementation check if ref word is needed and also io_ 
-            string licenseNumber = getValidatedLicenseNumber();
+            string resultMessage;
 
-            // Get time by minutes from user
-            // Convert to hours
-            // Use try-catch -> ReCharge should throw ValueOutOfRangeException
+            try
+            {
+                string licenseNumber = getValidatedLicenseNumber();
 
+                if (!io_Garage.FindVehicleInGarage(licenseNumber))
+                {
+                    Console.WriteLine("Vehicle not found in the garage. Would you like to add it? (Y/N)");
+                    char addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
+
+                    while (addVehicleChoice != 'Y' && addVehicleChoice != 'N')
+                    {
+                        Console.WriteLine("Invalid choice. Please enter Y (yes) or N (no):");
+                        addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
+                    }
+
+                    if (addVehicleChoice == 'Y')
+                    {
+                        handleInsertion(io_Garage);
+                        resultMessage = "Vehicle added to the garage. You can now recharge it.";
+                    }
+                    else
+                    {
+                        resultMessage = "Operation canceled.";
+                    }
+                }
+                else
+                {
+                    if (vehicleInGarage.Vehicle is ElectricVehicle electricVehicle)
+                    {
+                        Console.WriteLine("Please enter the amount of hours to recharge (positive number):");
+                        string hoursString = Console.ReadLine();
+
+                        if (float.TryParse(hoursString, out float hoursToRecharge) && hoursToRecharge > 0)
+                        {
+                            float hoursToAdd = hoursToRecharge / 60.0f; // Convert minutes to hours.
+                            electricVehicle.Recharge(hoursToAdd);
+                            resultMessage = "Vehicle recharged successfully!";
+                        }
+                        else
+                        {
+                            resultMessage = "Invalid recharge time.";
+                        }
+                    }
+                    else
+                    {
+                        resultMessage = "This vehicle does not support recharging.";
+                    }
+                }
+            }
+            catch (ValueOutOfRangeException ex)
+            {
+                resultMessage = $"Error: {ex.Message}";
+            }
+
+            Console.WriteLine(resultMessage);
         }
+
 
         private static void handlePrintDetails(ref Garage io_Garage)
         {
