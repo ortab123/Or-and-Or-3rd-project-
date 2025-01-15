@@ -731,31 +731,34 @@ namespace ConsleUI
                     }
                     else
                     {
-                        for (int i = 0; i < i_WheelsList.Count; i++)
+                        string brand = "unset";
+                        for (int i = 0; i < i_WheelsList.Count;)
                         {
                             while (true)
                             {
-                                try
+                                if (brand == "unset")
                                 {
                                     Console.WriteLine($"Enter tire brand for wheel {i + 1}:");
-                                    string brand = Console.ReadLine();
+                                    brand = Console.ReadLine();
+                                }
+                                try
+                                {
 
                                     Console.WriteLine($"Enter tire pressure for wheel {i + 1}:");
                                     float pressure = float.Parse(Console.ReadLine());
 
                                     i_WheelsList[i].SetDetails(brand, pressure, i_Vehicle);
+                                    brand = "unset";
+                                    i++;
                                 }
                                 catch (ValueOutOfRangeException ex)
                                 {
                                     Console.WriteLine($"{ex.Message}");
-                                    i--;
                                 }
                                 catch (FormatException ex)
                                 {
                                     Console.WriteLine("Invalid input. pressure.");
-                                    i--;
                                 }
-
 
                                 break;
                             }
@@ -764,15 +767,11 @@ namespace ConsleUI
 
                     return i_WheelsList;
                 }
-                catch (ValueOutOfRangeException ex)
+                catch (Exception ex) when (ex is ValueOutOfRangeException || ex is ArgumentException)
                 {
                     Console.WriteLine($"{ex.Message}");
                 }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"{ex.Message}");
-                }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                     Console.WriteLine("Invalid input. Please enter numeric values for tire pressure.");
                 }
