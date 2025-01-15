@@ -10,17 +10,42 @@ namespace ConsleUI
     {
         public static void Main()
         {
-            Console.WriteLine($"Welcome to our Garage!{Environment.NewLine}Please choose an option:{Environment.NewLine}1. Insert a car "
-                              + $"{Environment.NewLine}2. Print license numbers{Environment.NewLine}3. Change vehicle status"
-                              + $"{Environment.NewLine}4. Inflate wheels{Environment.NewLine}5. Refuel{Environment.NewLine}6. Recharge"
-                              + $"{Environment.NewLine}7. Print vehicle details");
-            string customerChoice = Console.ReadLine();
-
             Garage garage = new Garage();
+            while (true)
+            {
+                Console.WriteLine($"{Environment.NewLine}========Or's Garage========{Environment.NewLine}"
+                                  + $"Welcome to our Garage!{Environment.NewLine}"
+                                  + $"Please choose an option:{Environment.NewLine}1. Insert a car "
+                                  + $"{Environment.NewLine}2. Print license numbers{Environment.NewLine}3. Change vehicle status"
+                                  + $"{Environment.NewLine}4. Inflate wheels{Environment.NewLine}5. Refuel"
+                                  + $"{Environment.NewLine}6. Recharge"
+                                  + $"{Environment.NewLine}7. Print vehicle details" + $"{Environment.NewLine}8. Exit"
+                                  + $"{Environment.NewLine}==========================={Environment.NewLine}");
 
-            customerChoice = getValidChoice(customerChoice);
+                string customerChoice = Console.ReadLine();
+                customerChoice = getValidChoice(customerChoice);
 
-            handleCustomerChoice(customerChoice, ref garage);
+                if (customerChoice == "8")
+                {
+                    break;
+                }
+
+                handleCustomerChoice(customerChoice, garage);
+            }
+        }
+
+        private static bool validateNumber(string i_ChosenNumber)
+        {
+            bool isValidated = false;
+            if (int.TryParse(i_ChosenNumber, out int result))
+            {
+                if (result < 9 && result > 0)
+                {
+                    isValidated = true;
+                }
+            }
+
+            return isValidated;
         }
 
         private static string getValidChoice(string i_CustomerChoice)
@@ -34,32 +59,30 @@ namespace ConsleUI
             return i_CustomerChoice;
         }
 
-        private static void handleCustomerChoice(string i_CustomerChoice, ref Garage io_Garage)
+        private static void handleCustomerChoice(string i_CustomerChoice, Garage i_Garage)
         {
-            // After implementation of the 3 methods check if ref word is needed and also io_ 
-
             switch (stringToChoice(i_CustomerChoice))
             {
                 case eChoice.Insert:
-                    handleInsertion( io_Garage);
+                    handleInsertion(i_Garage);
                     break;
                 case eChoice.PrintLicenses:
-                    handlePrintLicenses(io_Garage);
+                    handlePrintLicenses(i_Garage);
                     break;
                 case eChoice.ChangeStatus:
-                    handleChangeStatus(io_Garage);
+                    handleChangeStatus(i_Garage);
                     break;
                 case eChoice.Inflate:
-                    handleInflate(io_Garage);
+                    handleInflate(i_Garage);
                     break;
                 case eChoice.Refuel:
-                    handleRefuel(ref io_Garage);
+                    handleRefuel(i_Garage);
                     break;
                 case eChoice.Recharge:
-                    handleRecharge(ref io_Garage);
+                    handleRecharge(i_Garage);
                     break;
                 case eChoice.PrintDetails:
-                    handlePrintDetails(ref io_Garage);
+                    handlePrintDetails(i_Garage);
                     break;
                 default:
                     Console.WriteLine("Invalid choice.");
@@ -96,12 +119,9 @@ namespace ConsleUI
                     }
                     else
                     {
-                        Console.WriteLine($"Please choose type of vehicle:{Environment.NewLine}1. FuelMotorcycle "
-                                          + $"{Environment.NewLine}2. ElectricMotorcycle{Environment.NewLine}3. FuelCar"
-                                          + $"{Environment.NewLine}4. ElectricCar{Environment.NewLine}5. Truck");
-                        string vehicleTypeString = Console.ReadLine();
+                        eVehicleType vehicleType = getVehicleType();
 
-                        Vehicle vehicle = handleVehicleType(vehicleTypeString, licenseNumber);
+                        Vehicle vehicle = handleVehicleType(vehicleType, licenseNumber);
                         string ownerPhoneNumber = getOwnerPhoneNumber();
                         string ownerName = getOwnerName();
                         VehicleInGarage vehicleInGarage = new VehicleInGarage(vehicle, ownerName, ownerPhoneNumber);
@@ -187,20 +207,39 @@ namespace ConsleUI
             eVehicleStatus status = GetVehicleStatus();
             List<string> vehiclesLicenseNumbers = i_Garage.FindVehiclesByStatus(status);
             Console.WriteLine($"Printing license numbers by the status {status}:");
-            Console.WriteLine(vehiclesLicenseNumbers);
+            if (vehiclesLicenseNumbers.Count > 0)
+            {
+                foreach (string licenseNumber in vehiclesLicenseNumbers)
+                {
+                    Console.WriteLine(licenseNumber);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"There are no vehicles with status {status} in the garage. :(");
+            }
         }
 
         private static void handleChangeStatus(Garage i_Garage)
         {
-            try
+            string licenseNumber = getValidatedLicenseNumber();
+
+            if (!i_Garage.FindVehicleInGarage(licenseNumber))
             {
-                eVehicleStatus status = GetVehicleStatus();
-                string licenseNumber = getValidatedLicenseNumber();
-                i_Garage.UpdateVehicleStatus(licenseNumber, status);
+                Console.WriteLine($"No vehicle with the license number '{licenseNumber}' was found in the garage." +
+                                  " Please double-check the license number.");
             }
-            catch (ArgumentException ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                try
+                {
+                    eVehicleStatus status = GetVehicleStatus();
+                    i_Garage.UpdateVehicleStatus(licenseNumber, status);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
 
@@ -208,189 +247,140 @@ namespace ConsleUI
         {
             string licenseNumber = getValidatedLicenseNumber();
 
-            bool isVehicleFound = i_Garage.InflateVehicleWheels(licenseNumber);
-
-            if (!isVehicleFound)
+            if (!i_Garage.FindVehicleInGarage(licenseNumber))
             {
-                Console.WriteLine($"A vehicle with the license number '{licenseNumber}' does not exist in the garage.");
+                Console.WriteLine($"No vehicle with the license number '{licenseNumber}' was found in the garage." +
+                    " Please double-check the license number.");
             }
             else
             {
-                Console.WriteLine($"All wheels of the vehicle with license number '{licenseNumber}' have been inflated to their maximum pressure.");
-            }
-        }
+                bool isInflated = i_Garage.InflateVehicleWheels(licenseNumber);
 
-        private static void handleRefuel(ref Garage io_Garage)
-        {
-            // After implementation check if ref word is needed and also io_ 
-            string resultMessage;
-
-            try
-            {
-                string licenseNumber = getValidatedLicenseNumber();
-
-                if (!io_Garage.FindVehicleInGarage(licenseNumber))
+                if (isInflated)
                 {
-                    Console.WriteLine("Vehicle not found in the garage. Would you like to add it? (Y/N)");
-                    char addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
-
-                    while (addVehicleChoice != 'Y' && addVehicleChoice != 'N')
-                    {
-                        Console.WriteLine("Invalid choice. Please enter Y (yes) or N (no):");
-                        addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
-                    }
-
-                    if (addVehicleChoice == 'Y')
-                    {
-                        handleInsertion(io_Garage);
-                        Console.WriteLine("Vehicle added to the garage. You can now refuel it.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Operation canceled.");
-                        return;
-                    }
+                    Console.WriteLine("Success! " +
+                        $"All wheels of the vehicle with license number '{licenseNumber}' have been" +
+                        " inflated to their maximum pressure.");
                 }
                 else
                 {
-                    if (vehicleInGarage.Vehicle is FuelVehicle fuelVehicle)
-                    {
-                        Console.WriteLine("Please enter fuel type (1. Soler, 2. Octan95, 3. Octan96, 4. Octan98):");
-                        string fuelTypeString = Console.ReadLine();
-
-                        if (Enum.TryParse(fuelTypeString, out eFuelType fuelType))
-                        {
-                            Console.WriteLine("Please enter amount of fuel to add:");
-                            string fuelAmountString = Console.ReadLine();
-
-                            if (float.TryParse(fuelAmountString, out float fuelAmount) && fuelAmount >= 0)
-                            {
-                                //How do we approached to refuel ?
-                                fuelVehicle.ReFuel(fuelType, fuelAmount);
-                                resultMessage = "Vehicle refueled successfully!";
-                            }
-                            else
-                            {
-                                resultMessage = "Invalid fuel amount.";
-                            }
-                        }
-                        else
-                        {
-                            resultMessage = "Invalid fuel type.";
-                        }
-                    }
-                    else
-                    {
-                        resultMessage = "This vehicle does not support refueling.";
-                    }
+                    Console.WriteLine($"Failed to inflate wheels for the vehicle with license number '{licenseNumber}'.");
                 }
             }
-            catch (ValueOutOfRangeException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-
-            Console.WriteLine(resultMessage);
-            // Get fuel type from user
-            // Get fuel amount from user
-            // Use try-catch -> ReFuel should throw:
-            //                                  ValueOutOfRangeException
-            //                                  ArgumentException
         }
 
-        private static void handleRecharge(ref Garage io_Garage)
+        private static void handleRefuel(Garage i_Garage)
         {
-            string resultMessage;
-
-            try
-            {
-                string licenseNumber = getValidatedLicenseNumber();
-
-                if (!io_Garage.FindVehicleInGarage(licenseNumber))
-                {
-                    Console.WriteLine("Vehicle not found in the garage. Would you like to add it? (Y/N)");
-                    char addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
-
-                    while (addVehicleChoice != 'Y' && addVehicleChoice != 'N')
-                    {
-                        Console.WriteLine("Invalid choice. Please enter Y (yes) or N (no):");
-                        addVehicleChoice = char.Parse(Console.ReadLine().ToUpper());
-                    }
-
-                    if (addVehicleChoice == 'Y')
-                    {
-                        handleInsertion(io_Garage);
-                        resultMessage = "Vehicle added to the garage. You can now recharge it.";
-                    }
-                    else
-                    {
-                        resultMessage = "Operation canceled.";
-                    }
-                }
-                else
-                {
-                    if (vehicleInGarage.Vehicle is ElectricVehicle electricVehicle)
-                    {
-                        Console.WriteLine("Please enter the amount of hours to recharge (positive number):");
-                        string hoursString = Console.ReadLine();
-
-                        if (float.TryParse(hoursString, out float hoursToRecharge) && hoursToRecharge > 0)
-                        {
-                            float hoursToAdd = hoursToRecharge / 60.0f; // Convert minutes to hours.
-                            electricVehicle.Recharge(hoursToAdd);
-                            resultMessage = "Vehicle recharged successfully!";
-                        }
-                        else
-                        {
-                            resultMessage = "Invalid recharge time.";
-                        }
-                    }
-                    else
-                    {
-                        resultMessage = "This vehicle does not support recharging.";
-                    }
-                }
-            }
-            catch (ValueOutOfRangeException ex)
-            {
-                resultMessage = $"Error: {ex.Message}";
-            }
-
-            Console.WriteLine(resultMessage);
-        }
-
-
-        private static void handlePrintDetails(ref Garage io_Garage)
-        {
-            // After implementation check if ref word is needed and also io_ 
             string licenseNumber = getValidatedLicenseNumber();
 
-            // Find this specific vehicle
-            // use Vehicle.PrintDetails -> its polymorph!
-        }
-
-        private static bool validateNumber(string i_ChosenNumber)
-        {
-            bool isValidated = false;
-            if (int.TryParse(i_ChosenNumber, out int result))
+            if (!i_Garage.FindVehicleInGarage(licenseNumber))
             {
-                if (result < 8 && result > 0)
+                Console.WriteLine($"No vehicle with the license number '{licenseNumber}' was found in the garage." +
+                                  " Please double-check the license number.");
+            }
+            else
+            {
+                Vehicle vehicle = i_Garage.GetVehicleFromGarage(licenseNumber);
+
+                if (vehicle is FuelVehicle fuelVehicle)
                 {
-                    isValidated = true;
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Please enter fuel amount (liters) you want to refuel:");
+                            float fuelAmount = float.Parse(Console.ReadLine());
+                            eFuelType fuelType = getFuelType();
+                            fuelVehicle.Refuel(fuelAmount, fuelType);
+                            Console.WriteLine("Vehicle refueled successfully!");
+                            break;
+                        }
+                        catch (ValueOutOfRangeException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"The vehicle with license number '{licenseNumber}' does not support refueling.");
                 }
             }
-
-            return isValidated;
         }
 
-        private static Vehicle handleVehicleType(string i_VehicleTypeString, string i_LicenseNumber)
+        private static void handleRecharge(Garage i_Garage)
+        {
+            string licenseNumber = getValidatedLicenseNumber();
+
+            if (!i_Garage.FindVehicleInGarage(licenseNumber))
+            {
+                Console.WriteLine($"No vehicle with the license number '{licenseNumber}' was found in the garage." +
+                                  " Please double-check the license number.");
+            }
+            else
+            {
+                Vehicle vehicle = i_Garage.GetVehicleFromGarage(licenseNumber);
+
+                if (vehicle is ElectricVehicle electricVehicle)
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Please enter minutes you want to charge:");
+                            float minutesToCharge = float.Parse(Console.ReadLine());
+                            electricVehicle.Recharge(minutesToCharge / 60);
+                            Console.WriteLine("Vehicle recharged successfully!");
+                            break;
+                        }
+                        catch (ValueOutOfRangeException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"The vehicle with license number '{licenseNumber}' does not support recharging.");
+                }
+            }
+        }
+   
+        private static void handlePrintDetails(Garage i_Garage)
+        {
+            string licenseNumber = getValidatedLicenseNumber();
+            if (!i_Garage.FindVehicleInGarage(licenseNumber))
+            {
+                Console.WriteLine($"No vehicle with the license number '{licenseNumber}' was found in the garage." +
+                                  " Please double-check the license number.");
+            }
+            else
+            {
+                Vehicle vehicle = i_Garage.GetVehicleFromGarage(licenseNumber);
+                Console.WriteLine(vehicle.PrintVehicleDetails());
+            }
+        }
+
+        private static Vehicle handleVehicleType(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             Vehicle vehicle = null;
-            switch (stringToVehicleType(i_VehicleTypeString))
+            switch (i_VehicleType)
             {
                 case eVehicleType.FuelMotorcycle:
                     vehicle = fuelMotorcycleAdding(i_LicenseNumber);
@@ -503,8 +493,13 @@ namespace ConsleUI
         {
             i_Vehicle.m_LicenseNumber = i_LicenseNumber;
             i_Vehicle.SetVehicleModel(getVehicleModel(i_Prompt));
-            List<Wheels> wheelsList = new List<Wheels>(i_WheelsCount);
-            getWheelsDetails(wheelsList, i_Vehicle);
+            List<Wheels> wheelsList = new List<Wheels>();
+            for (int i = 0; i < i_WheelsCount; i++)
+            {
+                wheelsList.Add(new Wheels());
+            }
+
+            i_Vehicle.SetWheels(getWheelsDetails(wheelsList, i_Vehicle));
         }
 
         private static void setMotorcycleEngine(Vehicle i_Motorcycle)
@@ -609,6 +604,48 @@ namespace ConsleUI
             }
         }
 
+        private static eFuelType getFuelType()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please choose the type of fuel:");
+                foreach (var fuel in MapperHelper.sr_FuelTypeMap)
+                {
+                    Console.WriteLine($"{fuel.Key}. {fuel.Value}");
+                }
+
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && MapperHelper.sr_FuelTypeMap.ContainsKey(choice))
+                {
+                    return MapperHelper.sr_FuelTypeMap[choice];
+                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a fuel type.");
+            }
+        }
+
+        private static eVehicleType getVehicleType()
+        {
+            while (true)
+            {
+                Console.WriteLine("Please choose the type of vehicle:");
+                foreach (var vehicleType in MapperHelper.sr_VehicleTypeMap)
+                {
+                    Console.WriteLine($"{vehicleType.Key}. {vehicleType.Value}");
+                }
+
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && MapperHelper.sr_VehicleTypeMap.ContainsKey(choice))
+                {
+                    return MapperHelper.sr_VehicleTypeMap[choice];
+                }
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a vehicle type.");
+            }
+        }
+
         private static void setFuelVehicleCurrentAmount(FuelVehicle i_FuelVehicle)
         {
             while (true)
@@ -620,15 +657,15 @@ namespace ConsleUI
                     float currentFuelAmount = float.Parse(currentFuelInput);
                     float fuelTankCapacity;
 
-                    if (i_FuelVehicle is FuelMotorcycle fuelMotorcycle)
+                    if (i_FuelVehicle is FuelMotorcycle)
                     {
                         fuelTankCapacity = FuelMotorcycle.k_FuelTankCapacity;
                     }
-                    else if (i_FuelVehicle is FuelCar fuelCar)
+                    else if (i_FuelVehicle is FuelCar)
                     {
                         fuelTankCapacity = FuelCar.k_FuelTankCapacity;
                     }
-                    else if(i_FuelVehicle is Truck truck)
+                    else if(i_FuelVehicle is Truck)
                     {
                         fuelTankCapacity = Truck.k_FuelTankCapacity;
                     }
@@ -638,6 +675,7 @@ namespace ConsleUI
                     }
 
                     FuelVehicle.ValidateFuelAmount(currentFuelAmount, fuelTankCapacity);
+                    i_FuelVehicle.SetEnergyPercentage(currentFuelAmount / fuelTankCapacity);
                     i_FuelVehicle.SetCurrentFuelAmount(currentFuelAmount);
                     break;
                 }
@@ -651,7 +689,7 @@ namespace ConsleUI
                 }
                 catch (FormatException ex)
                 {
-                    Console.WriteLine("Invalid format. Please enter a valid integer for engine volume.");
+                    Console.WriteLine("Invalid format. Please enter a valid float for fuel amount.");
                 }
                 catch (Exception ex)
                 {
@@ -668,7 +706,7 @@ namespace ConsleUI
             return vehicleModel;
         }
 
-        private static void getWheelsDetails(List<Wheels> WheelsList, Vehicle i_Vehicle)
+        private static List<Wheels> getWheelsDetails(List<Wheels> i_WheelsList, Vehicle i_Vehicle)
         {
             Console.WriteLine("Are all your wheels the same brand and tire pressure? (y/n):");
             char choice = char.Parse(Console.ReadLine().ToUpper());
@@ -678,73 +716,102 @@ namespace ConsleUI
                 Console.WriteLine("Invalid choice. Please enter 'y' or 'n'.");
                 choice = char.Parse(Console.ReadLine().ToUpper());
             }
-            try
-            {
 
-                if (choice == 'Y')
+            while (true)
+            {
+                try
                 {
-                    Console.WriteLine("Enter tire brand:");
-                    string brand = Console.ReadLine();
-                    Console.WriteLine("Enter tire pressure:");
-                    float pressureInput = float.Parse(Console.ReadLine());
-                    Wheels.SetAllWheelsDetails(WheelsList, brand, pressureInput, i_Vehicle);
-                }
-                else
-                {
-                    for (int i = 0; i < WheelsList.Count; i++)
+                    if (choice == 'Y')
                     {
-                        Console.WriteLine($"Enter tire brand for wheel {i + 1}:");
+                        Console.WriteLine("Enter tire brand:");
                         string brand = Console.ReadLine();
-
-                        Console.WriteLine($"Enter tire pressure for wheel {i + 1}:");
-                        float pressure = float.Parse(Console.ReadLine());
-
-                        WheelsList[i].SetDetails(brand, pressure, i_Vehicle);
+                        Console.WriteLine("Enter tire pressure:");
+                        float pressureInput = float.Parse(Console.ReadLine());
+                        Wheels.SetAllWheelsDetails(i_WheelsList, brand, pressureInput, i_Vehicle);
                     }
+                    else
+                    {
+                        for (int i = 0; i < i_WheelsList.Count; i++)
+                        {
+                            while (true)
+                            {
+                                try
+                                {
+                                    Console.WriteLine($"Enter tire brand for wheel {i + 1}:");
+                                    string brand = Console.ReadLine();
+
+                                    Console.WriteLine($"Enter tire pressure for wheel {i + 1}:");
+                                    float pressure = float.Parse(Console.ReadLine());
+
+                                    i_WheelsList[i].SetDetails(brand, pressure, i_Vehicle);
+                                }
+                                catch (ValueOutOfRangeException ex)
+                                {
+                                    Console.WriteLine($"{ex.Message}");
+                                    i--;
+                                }
+                                catch (FormatException ex)
+                                {
+                                    Console.WriteLine("Invalid input. pressure.");
+                                    i--;
+                                }
+
+
+                                break;
+                            }
+                        }
+                    }
+
+                    return i_WheelsList;
                 }
-            }
-            catch (ValueOutOfRangeException ex)
-            {
-                Console.WriteLine($"{ex.Message}");
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"{ex.Message}");
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine("Invalid format. Please enter a valid integer for engine volume.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                catch (ValueOutOfRangeException ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine("Invalid input. Please enter numeric values for tire pressure.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                }
             }
         }
 
         private static void setBatteryTimeLeft(ElectricVehicle i_ElectricVehicle)
         {
-            try
+            while (true)
             {
-                Console.WriteLine("Please enter how many hours left");
-                float hoursLeft = float.Parse(Console.ReadLine());
-                ElectricVehicle.ValidateBatteryTime(hoursLeft, i_ElectricVehicle.GetMaxEnergy());
-                i_ElectricVehicle.SetCurrentEnergy(hoursLeft);
-            }
-            catch (ValueOutOfRangeException ex)
-            {
-                Console.WriteLine($"{ex.Message}");
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"{ex.Message}");
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine("Invalid format. Please enter a valid integer for engine volume.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                try
+                {
+                    Console.WriteLine("Please enter how many hours of usage are left with the current battery charge:");
+                    float hoursLeft = float.Parse(Console.ReadLine());
+                    ElectricVehicle.ValidateBatteryTime(hoursLeft, i_ElectricVehicle.GetMaxEnergy());
+                    i_ElectricVehicle.SetEnergyPercentage(hoursLeft / i_ElectricVehicle.GetMaxEnergy());
+                    i_ElectricVehicle.SetCurrentEnergy(hoursLeft);
+                    break;
+                }
+                catch (ValueOutOfRangeException ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine("Invalid format. Please enter a valid integer for engine volume.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                }
             }
         }
 

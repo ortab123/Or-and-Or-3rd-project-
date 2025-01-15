@@ -35,7 +35,7 @@ namespace Ex03_Or_315900845_Or_314919994
             if (i_FuelCurrentAmount < 0 || i_FuelCurrentAmount > i_FuelTankCapacity)
             {
                 throw new ValueOutOfRangeException(0, i_FuelTankCapacity, $"Fuel current amount ({i_FuelCurrentAmount} L)" +
-                    $" is not in range {i_FuelCurrentAmount} - {i_FuelTankCapacity}.");
+                    $" is not in range 0 - {i_FuelTankCapacity}.");
             }
         }
 
@@ -54,11 +54,11 @@ namespace Ex03_Or_315900845_Or_314919994
             return m_FuelType;
         }
 
-        public void Refuel(int i_FuelAmount, eFuelType i_FuelType)
+        public void Refuel(float i_FuelAmount, eFuelType i_FuelType)
         {
             if (i_FuelAmount < 0 || GetCurrentEnergy() + i_FuelAmount > GetMaxEnergy())
             {
-                throw new ValueOutOfRangeException(0,(GetMaxEnergy() -GetCurrentEnergy()), $"The value is not in the range {0} to {(GetMaxEnergy() - GetCurrentEnergy())}.");
+                throw new ValueOutOfRangeException(0,(GetMaxEnergy() - GetCurrentEnergy()), $"The value is not in the range {0} to {(GetMaxEnergy() - GetCurrentEnergy())}.");
             }
 
             if (i_FuelType != GetFuelType())

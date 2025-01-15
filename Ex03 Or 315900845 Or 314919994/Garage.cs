@@ -46,6 +46,21 @@ namespace Ex03_Or_315900845_Or_314919994
             return isFound;
         }
 
+        public Vehicle GetVehicleFromGarage(string i_LicenseNumber)
+        {
+            Vehicle vehicle = null;
+
+            foreach (VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
+            {
+                if (vehicleInGarage.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
+                {
+                    vehicle = vehicleInGarage.m_Vehicle;
+                }
+            }
+
+            return vehicle;
+        }
+
         public void UpdateVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
             foreach (VehicleInGarage vehicle in r_VehiclesInGarage)
@@ -77,6 +92,7 @@ namespace Ex03_Or_315900845_Or_314919994
         public bool InflateVehicleWheels(string i_LicenseNumber)
         {
             bool isInflated = false;
+
             foreach (VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
             {
                 if (vehicleInGarage.m_Vehicle.m_LicenseNumber == i_LicenseNumber)

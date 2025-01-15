@@ -14,7 +14,12 @@ namespace Ex03_Or_315900845_Or_314919994
 
         public FuelMotorcycle()
         {
+            setFuelType();
+        }
 
+        private void setFuelType()
+        {
+            m_FuelType = k_FuelType;
         }
 
         public void SetLicenseType(eLicenseType i_LicenseType)
@@ -45,8 +50,8 @@ namespace Ex03_Or_315900845_Or_314919994
             vehicleDetails.AppendLine("------------------");
             vehicleDetails.AppendLine($"Model Name: {m_ModelName}");
             vehicleDetails.AppendLine($"License Number: {m_LicenseNumber}");
-            vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage:F2}%");
-            vehicleDetails.AppendLine($"Fuel Capacity: {m_FuelTankCapacity:F1} L");
+            vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage * 100:F2}%");
+            vehicleDetails.AppendLine($"Fuel Capacity: {k_FuelTankCapacity:F1} L");
             vehicleDetails.AppendLine($"Current Fuel Left: {m_CurrentFuelTankAmount:F1} L");
             vehicleDetails.AppendLine($"Fuel Type: {m_FuelType}");
             vehicleDetails.AppendLine($"License Type: {m_LicenseType}");

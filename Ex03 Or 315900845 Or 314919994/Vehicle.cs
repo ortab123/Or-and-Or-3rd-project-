@@ -11,21 +11,18 @@ namespace Ex03_Or_315900845_Or_314919994
         protected float m_EnergyPercentage { get; set; }
         protected List<Wheels> m_Wheels { get; set; } = new List<Wheels>();
 
-        protected Vehicle(string i_ModelName, string i_LicenseNumber)
-        {
-            m_ModelName = i_ModelName;
-            m_LicenseNumber = i_LicenseNumber;
-            m_EnergyPercentage = getEnergyPercentage();
-        }
-
         protected Vehicle()
         {
-
         }
 
         public void SetVehicleModel(string i_Model) 
         {
             m_ModelName = i_Model;
+        }
+
+        public void SetEnergyPercentage(float i_EnergyPercentage)
+        {
+            m_EnergyPercentage = i_EnergyPercentage;
         }
 
         private float getEnergyPercentage()
@@ -36,6 +33,11 @@ namespace Ex03_Or_315900845_Or_314919994
         protected abstract float GetCurrentEnergy();
 
         public abstract float GetMaxEnergy();
+
+        public void SetWheels(List<Wheels> i_Wheels)
+        {
+            m_Wheels = i_Wheels;
+        }
 
         public void InflateAllWheelsToMax()
         {

@@ -16,6 +16,11 @@ namespace Ex03_Or_315900845_Or_314919994
 
         }
 
+        public override float GetMaxEnergy()
+        {
+            return k_BatteryTimeCapacity;
+        }
+
         public void SetCarColor(eCarColor i_CarColor)
         {
             m_Color = i_CarColor;
@@ -39,7 +44,7 @@ namespace Ex03_Or_315900845_Or_314919994
             vehicleDetails.AppendLine("----------------------");
             vehicleDetails.AppendLine($"Model Name: {m_ModelName}");
             vehicleDetails.AppendLine($"License Number: {m_LicenseNumber}");
-            vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage:F2}%");
+            vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage * 100:F2}%");
             vehicleDetails.AppendLine($"Battery Capacity: {m_BatteryTimeCapacity:F1} H");
             vehicleDetails.AppendLine($"Current Battery: {m_CurrentBatteryTimeLeft:F1} H");
             vehicleDetails.AppendLine($"Color: {m_Color}");

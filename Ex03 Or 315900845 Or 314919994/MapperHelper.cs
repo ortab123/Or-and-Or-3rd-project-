@@ -31,5 +31,23 @@ namespace Ex03_Or_315900845_Or_314919994
                                                                              { 3, eCarColor.White },
                                                                              { 4, eCarColor.Gray },
                                                                          };
+
+        public static readonly Dictionary<int, eFuelType> sr_FuelTypeMap = new Dictionary<int, eFuelType>
+                                                                               {
+                                                                                   { 1, eFuelType.Octan98 },
+                                                                                   { 2, eFuelType.Octan96 },
+                                                                                   { 3, eFuelType.Octan95 },
+                                                                                   { 4, eFuelType.Soler },
+                                                                               };
+
+        public static readonly Dictionary<int, eVehicleType> sr_VehicleTypeMap = new Dictionary<int, eVehicleType>
+            {
+                { 1, eVehicleType.FuelMotorcycle },
+                { 2, eVehicleType.ElectricMotorcycle },
+                { 3, eVehicleType.FuelCar },
+                { 4, eVehicleType.ElectricCar },
+                { 5, eVehicleType.Truck },
+            };
+
     }
 }
