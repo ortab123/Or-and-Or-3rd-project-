@@ -10,17 +10,25 @@ namespace Ex03_Or_315900845_Or_314919994
         public const float k_MaxTirePressure = 29f;
         public const float k_FuelTankCapacity = 125f;
         private const eFuelType k_FuelType = eFuelType.Soler;
+        private const int k_WheelsNumber = 14;
+
         private bool m_Refrigeration { set; get; }
         private float m_CargoVolume { set; get; }
 
         public Truck()
         {
-            setFuelType();
+            m_FuelType = k_FuelType;
+            m_FuelTankCapacity = k_FuelTankCapacity;
         }
 
-        private void setFuelType()
+        public override int GetWheelsNumber()
         {
-            m_FuelType = k_FuelType;
+            return k_WheelsNumber;
+        }
+
+        public override float GetMaxTirePressure()
+        {
+            return k_MaxTirePressure;
         }
 
         public void SetCargoVolume(float i_CargoVolume)
@@ -52,7 +60,7 @@ namespace Ex03_Or_315900845_Or_314919994
             vehicleDetails.AppendLine($"Model Name: {m_ModelName}");
             vehicleDetails.AppendLine($"License Number: {m_LicenseNumber}");
             vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage * 100:F2}%");
-            vehicleDetails.AppendLine($"Fuel Capacity: {k_FuelTankCapacity:F1} L");
+            vehicleDetails.AppendLine($"Fuel Capacity: {m_FuelTankCapacity:F1} L");
             vehicleDetails.AppendLine($"Current Fuel Left: {m_CurrentFuelTankAmount:F1} L");
             vehicleDetails.AppendLine($"Fuel Type: {m_FuelType}");
             vehicleDetails.AppendLine($"Cargo Volume: {m_CargoVolume}");

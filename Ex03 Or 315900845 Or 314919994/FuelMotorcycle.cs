@@ -9,17 +9,25 @@ namespace Ex03_Or_315900845_Or_314919994
         public const float k_MaxTirePressure = 32f;
         public const float k_FuelTankCapacity = 6.2f;
         private const eFuelType k_FuelType = eFuelType.Octan98;
+        private const int k_WheelsNumber = 2;
+
         private eLicenseType m_LicenseType { get; set; }
         private int m_EngineVolume { get; set; }
 
         public FuelMotorcycle()
         {
-            setFuelType();
+            m_FuelType = k_FuelType;
+            m_FuelTankCapacity = k_FuelTankCapacity;
         }
 
-        private void setFuelType()
+        public override int GetWheelsNumber()
         {
-            m_FuelType = k_FuelType;
+            return k_WheelsNumber;
+        }
+
+        public override float GetMaxTirePressure()
+        {
+            return k_MaxTirePressure;
         }
 
         public void SetLicenseType(eLicenseType i_LicenseType)

@@ -14,11 +14,6 @@ namespace Ex03_Or_315900845_Or_314919994
             r_VehiclesInGarage = new List<VehicleInGarage>();
         }
 
-        public static Garage GetInstance()
-        {
-            return sr_Instance;
-        }
-
         public void AddVehicle(VehicleInGarage i_VehicleInGarage)
         {
             if (!FindVehicleInGarage(i_VehicleInGarage.m_Vehicle.m_LicenseNumber))
@@ -61,14 +56,14 @@ namespace Ex03_Or_315900845_Or_314919994
             return vehicle;
         }
 
-        public void UpdateVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
+        public string UpdateVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
             foreach (VehicleInGarage vehicle in r_VehiclesInGarage)
             {
                 if (vehicle.m_Vehicle.m_LicenseNumber == i_LicenseNumber)
                 {
                     vehicle.m_Status = i_NewStatus;
-                    return;
+                    return $"Vehicle number {i_LicenseNumber} status changed successfully";
                 }
             }
 

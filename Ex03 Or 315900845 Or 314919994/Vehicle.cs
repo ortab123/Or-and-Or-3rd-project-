@@ -15,22 +15,21 @@ namespace Ex03_Or_315900845_Or_314919994
         {
         }
 
-        public void SetVehicleModel(string i_Model) 
+        public void SetEnergyPercentage()
         {
-            m_ModelName = i_Model;
-        }
-
-        public void SetEnergyPercentage(float i_EnergyPercentage)
-        {
-            m_EnergyPercentage = i_EnergyPercentage;
+            m_EnergyPercentage = getEnergyPercentage();
         }
 
         private float getEnergyPercentage()
         {
-            return (GetCurrentEnergy() / GetMaxEnergy()) * 100;
+            return GetCurrentEnergy() / GetMaxEnergy();
         }
 
-        protected abstract float GetCurrentEnergy();
+        public abstract int GetWheelsNumber();
+
+        public abstract float GetMaxTirePressure();
+
+        public abstract float GetCurrentEnergy();
 
         public abstract float GetMaxEnergy();
 

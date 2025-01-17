@@ -8,12 +8,23 @@ namespace Ex03_Or_315900845_Or_314919994
     {
         public const float k_MaxTirePressure = 34f;
         public const float k_BatteryTimeCapacity = 5.4f;
+        private const int k_WheelsNumber = 5;
         private eCarColor m_Color { get; set; }
         private eDoorsNumber m_DoorsNumber { get; set; }
 
         public ElectricCar()
         {
+            m_BatteryTimeCapacity = k_BatteryTimeCapacity;
+        }
 
+        public override int GetWheelsNumber()
+        {
+            return k_WheelsNumber;
+        }
+
+        public override float GetMaxTirePressure()
+        {
+            return k_MaxTirePressure;
         }
 
         public override float GetMaxEnergy()
