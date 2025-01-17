@@ -101,7 +101,6 @@ namespace Ex03_Or_315900845_Or_314919994
                 }
 
                 i_Vehicle.SetEnergyPercentage();
-                initializeWheels(i_Vehicle, i_AdditionalParameters);
             }
 
             private static void initializeWheels(Vehicle i_Vehicle, Dictionary<string, object> i_AdditionalParameters)
