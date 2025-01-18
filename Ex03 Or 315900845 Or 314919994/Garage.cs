@@ -72,16 +72,16 @@ namespace Ex03_Or_315900845_Or_314919994
 
         public List<string> FindVehiclesByStatus(eVehicleStatus i_Status)
         {
-            List<string> licenseNumbers = new List<string>();
+            List<string> licenseNumberSortedByStatus = new List<string>();
             foreach(VehicleInGarage vehicleInGarage in r_VehiclesInGarage)
             {
                 if (vehicleInGarage.m_Status == i_Status)
                 {
-                    licenseNumbers.Add(vehicleInGarage.m_Vehicle.m_LicenseNumber);
+                    licenseNumberSortedByStatus.Add(vehicleInGarage.m_Vehicle.m_LicenseNumber);
                 }
             }
 
-            return licenseNumbers;
+            return licenseNumberSortedByStatus;
         }
 
         public bool InflateVehicleWheels(string i_LicenseNumber)

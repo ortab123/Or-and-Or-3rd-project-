@@ -6,9 +6,9 @@ namespace Ex03_Or_315900845_Or_314919994
 {
     public abstract class Vehicle
     {
-        protected string m_ModelName { get; set; }
+        public string m_ModelName { get; set; }
         public string m_LicenseNumber { get; set; }
-        protected float m_EnergyPercentage { get; set; }
+        public float m_EnergyPercentage { get; set; }
         protected List<Wheels> m_Wheels { get; set; } = new List<Wheels>();
 
         protected Vehicle()
@@ -20,7 +20,7 @@ namespace Ex03_Or_315900845_Or_314919994
             m_EnergyPercentage = getEnergyPercentage();
         }
 
-        private float getEnergyPercentage()
+        protected float getEnergyPercentage()
         {
             return GetCurrentEnergy() / GetMaxEnergy();
         }

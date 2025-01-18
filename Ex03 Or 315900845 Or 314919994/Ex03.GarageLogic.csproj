@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Ex03_Or_315900845_Or_314919994</RootNamespace>
     <AssemblyName>Ex03.GarageLogic</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -55,6 +55,7 @@
     <Compile Include="FuelVehicle.cs" />
     <Compile Include="ElectricMotorcycle.cs" />
     <Compile Include="Garage.cs" />
+    <Compile Include="Other.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />

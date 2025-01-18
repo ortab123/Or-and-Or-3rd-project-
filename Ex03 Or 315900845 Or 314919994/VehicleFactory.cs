@@ -35,6 +35,10 @@ namespace Ex03_Or_315900845_Or_314919994
                 {
                     vehicle = new Truck();
                 }
+                else if(i_VehicleType == eVehicleType.Other)
+                {
+                    vehicle = new Other();
+                }
                 else
                 {
                     throw new ArgumentException("Invalid vehicle type.");
@@ -159,6 +163,46 @@ namespace Ex03_Or_315900845_Or_314919994
                     throw;
                 }
             }
+
+            public static Vehicle InitializeNewVehicle(
+            string i_VehicleTypeName,
+            int i_WheelCount,
+            bool i_IsElectric,
+            string i_ModelName,
+            string i_LicenseNumber,
+            float i_EnergyPercentage,
+            List<Wheels> i_Wheels)
+            {
+                Vehicle newVehicle;
+
+                // יצירת רכב מסוג 'Other'
+                newVehicle = new Other()
+                {
+                    m_ModelName = i_ModelName,
+                    m_LicenseNumber = i_LicenseNumber,
+                    m_EnergyPercentage = i_EnergyPercentage
+                };
+
+                // הגדרת הגלגלים
+                if (i_Wheels.Count != i_WheelCount)
+                {
+                    throw new ArgumentException("The number of wheels provided does not match the specified wheel count.");
+                }
+                newVehicle.SetWheels(i_Wheels);
+
+                // הגדרת סוג האנרגיה
+                if (i_IsElectric)
+                {
+                    ((Other)newVehicle).SetElectricEngine();
+                }
+                else
+                {
+                    ((Other)newVehicle).SetFuelEngine();
+                }
+
+                return newVehicle;
+            }
+
 
             private static T validateParameter<T>(Dictionary<string, object> i_Parameters, string i_Key)
             {

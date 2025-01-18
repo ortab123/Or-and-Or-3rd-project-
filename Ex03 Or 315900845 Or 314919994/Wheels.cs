@@ -71,32 +71,33 @@ namespace Ex03_Or_315900845_Or_314919994
             return maxWheelPressure;
         }
 
-        public static void SetAllWheelsDetails(List<Wheels> i_WheelsList, string i_Brand, 
-            float i_PressureInput, Vehicle i_Vehicle)
-        {
-            ValidateTirePressure(i_PressureInput, GetMaxWheelPressure(i_Vehicle));
-            foreach (Wheels wheel in i_WheelsList)
-            {
-                wheel.m_ManufacturerName = i_Brand;
-                wheel.SetTireCurrentPressure(i_PressureInput);
-                wheel.SetTireMaxPressure(GetMaxWheelPressure(i_Vehicle));
-            }
-        }
+        //Do we need those functions ?
+        //public static void SetAllWheelsDetails(List<Wheels> i_WheelsList, string i_Brand, 
+        //    float i_PressureInput, Vehicle i_Vehicle)
+        //{
+        //    ValidateTirePressure(i_PressureInput, GetMaxWheelPressure(i_Vehicle));
+        //    foreach (Wheels wheel in i_WheelsList)
+        //    {
+        //        wheel.m_ManufacturerName = i_Brand;
+        //        wheel.SetTireCurrentPressure(i_PressureInput);
+        //        wheel.SetTireMaxPressure(GetMaxWheelPressure(i_Vehicle));
+        //    }
+        //}
 
-        public void SetDetails(string i_BrandName, float i_Pressure, Vehicle i_Vehicle)
-        {
-            if (string.IsNullOrWhiteSpace(i_BrandName))
-            {
-                throw new ArgumentException("Brand name cannot be empty.");
-            }
+        //public void SetDetails(string i_BrandName, float i_Pressure, Vehicle i_Vehicle)
+        //{
+        //    if (string.IsNullOrWhiteSpace(i_BrandName))
+        //    {
+        //        throw new ArgumentException("Brand name cannot be empty.");
+        //    }
 
-            float maxPressure = GetMaxWheelPressure(i_Vehicle);
-            ValidateTirePressure(i_Pressure, maxPressure);
+        //    float maxPressure = GetMaxWheelPressure(i_Vehicle);
+        //    ValidateTirePressure(i_Pressure, maxPressure);
 
-            m_ManufacturerName = i_BrandName;
-            m_CurrentAirPressure = i_Pressure;
-            m_MaxAirPressure = maxPressure;
-        }
+        //    m_ManufacturerName = i_BrandName;
+        //    m_CurrentAirPressure = i_Pressure;
+        //    m_MaxAirPressure = maxPressure;
+        //}
 
         public void InflateToMax()
         {

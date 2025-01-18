@@ -18,10 +18,11 @@ namespace ConsleUI
                     $"{Environment.NewLine}========Or's Garage========{Environment.NewLine}"
                     + $"Welcome to our Garage!{Environment.NewLine}"
                     + $"Please choose an option:{Environment.NewLine}1. Insert a car "
-                    + $"{Environment.NewLine}2. Print license numbers{Environment.NewLine}3. Change vehicle status"
-                    + $"{Environment.NewLine}4. Inflate wheels{Environment.NewLine}5. Refuel"
-                    + $"{Environment.NewLine}6. Recharge" + $"{Environment.NewLine}7. Print vehicle details"
-                    + $"{Environment.NewLine}8. Exit"
+                    + $"{Environment.NewLine}2. Insert new type of Vehicle"
+                    + $"{Environment.NewLine}3. Print license numbers{Environment.NewLine}4. Change vehicle status"
+                    + $"{Environment.NewLine}5. Inflate wheels{Environment.NewLine}6. Refuel"
+                    + $"{Environment.NewLine}7. Recharge" + $"{Environment.NewLine}8. Print vehicle details"
+                    + $"{Environment.NewLine}9. Exit"
                     + $"{Environment.NewLine}==========================={Environment.NewLine}");
 
                 eChoice customerChoice = getChoiceFromUser();
@@ -54,9 +55,11 @@ namespace ConsleUI
         {
             switch (i_CustomerChoice)
             {
-                case eChoice.Insert:
+                case eChoice.InsertVehicle:
                     handleInsertion(i_Garage);
                     break;
+                case eChoice.InsertNewTypeOfVehicle:
+                    //creationOhter
                 case eChoice.PrintLicenses:
                     handlePrintLicenses(i_Garage);
                     break;
