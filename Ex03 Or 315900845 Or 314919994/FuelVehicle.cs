@@ -3,17 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    // Maybe check for option to do it fully abstract:
     public abstract class FuelVehicle : Vehicle
     {
         protected eFuelType m_FuelType { get; set; }
         protected float m_CurrentFuelTankAmount { get; set; }
         protected float m_FuelTankCapacity { get; set; }
-
-        protected FuelVehicle()
-        {
-
-        }
 
         public void SetCurrentFuelAmount(float i_FuelCurrentAmount)
         {
@@ -28,15 +22,6 @@ namespace Ex03_Or_315900845_Or_314919994
         public void SetFuelType(eFuelType i_FuelType)
         {
             m_FuelType = i_FuelType;
-        }
-
-        public static void ValidateFuelAmount(float i_FuelCurrentAmount, float i_FuelTankCapacity)
-        {
-            if (i_FuelCurrentAmount < 0 || i_FuelCurrentAmount > i_FuelTankCapacity)
-            {
-                throw new ValueOutOfRangeException(0, i_FuelTankCapacity, $"Fuel current amount ({i_FuelCurrentAmount} L)" +
-                    $" is not in range 0 - {i_FuelTankCapacity}.");
-            }
         }
 
         public override float GetCurrentEnergy()

@@ -47,20 +47,19 @@ namespace Ex03_Or_315900845_Or_314919994
                 { 3, eVehicleType.FuelCar },
                 { 4, eVehicleType.ElectricCar },
                 { 5, eVehicleType.Truck },
-                //{6, eVehicleType.Other }
+                {6, eVehicleType.Other }
             };
 
         public static readonly Dictionary<int, eChoice> sr_ChoicesMap = new Dictionary<int, eChoice>
                                                                             {
                                                                                 { 1, eChoice.InsertVehicle },
-                                                                                { 2, eChoice.InsertNewTypeOfVehicle},
-                                                                                { 3, eChoice.PrintLicenses },
-                                                                                { 4, eChoice.ChangeStatus },
-                                                                                { 5, eChoice.Inflate },
-                                                                                { 6, eChoice.Refuel },
-                                                                                { 7, eChoice.Recharge },
-                                                                                { 8, eChoice.PrintDetails },
-                                                                                { 9, eChoice.Exit }
+                                                                                { 2, eChoice.PrintLicenses },
+                                                                                { 3, eChoice.ChangeStatus },
+                                                                                { 4, eChoice.Inflate },
+                                                                                { 5, eChoice.Refuel },
+                                                                                { 6, eChoice.Recharge },
+                                                                                { 7, eChoice.PrintDetails },
+                                                                                { 8, eChoice.Exit }
                                                                             };
     }
 }

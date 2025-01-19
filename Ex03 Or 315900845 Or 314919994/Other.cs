@@ -8,56 +8,28 @@ namespace Ex03_Or_315900845_Or_314919994
 {
     public class Other : Vehicle
     {
-        private bool m_IsElectric;
-        private string m_TypeName;
-        public int m_NumberOfWheels { get; private set; }
-        public string m_EnergyType { get; private set; }
+        public bool m_IsElectric;
+
+        public eFuelType? m_FuelType { get; private set; }
         public float m_MaxEnergyCapacity { get; private set; }
         public float m_CurrentEnergy { get; private set; }
 
-        public List<Wheels> WheelsList { get; private set; } = new List<Wheels>();
+        private string m_TypeName;
+        public int m_NumberOfWheels { get; private set; }
 
-        public Other() { }
-
-        //public void InitializeNewVehicle(
-        //    string i_ModelName,
-        //    string i_LicenseNumber,
-        //    int i_NumberOfWheels,
-        //    string i_EnergyType,
-        //    float i_MaxEnergyCapacity,
-        //    float i_CurrentEnergy,
-        //    List<Wheels> i_Wheels)
-        //{
-        //    m_ModelName = i_ModelName;
-        //    m_LicenseNumber = i_LicenseNumber;
-        //    m_NumberOfWheels = i_NumberOfWheels;
-        //    m_EnergyType = i_EnergyType;
-        //    m_MaxEnergyCapacity = i_MaxEnergyCapacity;
-        //    m_CurrentEnergy = i_CurrentEnergy;
-        //    WheelsList = i_Wheels;
-        //    m_EnergyPercentage = getEnergyPercentage();
-        //}
+        public override eVehicleType GetEVehicleType()
+        {
+            return eVehicleType.Other;
+        }
 
         public void SetTypeName(string i_TypeName)
         {
             m_TypeName = i_TypeName;
         }
 
-        public string GetTypeName()
+        public void SetIsElectricEngine(bool i_IsElectric)
         {
-            return m_TypeName;
-        }
-
-        public void SetElectricEngine()
-        {
-            m_IsElectric = true;
-            // כאן ניתן להוסיף לוגיקה נוספת לאתחול מנוע חשמלי
-        }
-
-        public void SetFuelEngine()
-        {
-            m_IsElectric = false;
-            // כאן ניתן להוסיף לוגיקה נוספת לאתחול מנוע דלק
+            m_IsElectric = i_IsElectric;
         }
 
         public override int GetWheelsNumber()
@@ -67,7 +39,7 @@ namespace Ex03_Or_315900845_Or_314919994
 
         public override float GetMaxTirePressure()
         {
-            if (WheelsList.Any())
+            if (m_Wheels.Any())
             {
                 return Wheels.GetMaxWheelPressure(this);
             }
@@ -82,44 +54,88 @@ namespace Ex03_Or_315900845_Or_314919994
             return m_CurrentEnergy;
         }
 
+        public void SetCurrentEnergy(float i_CurrentEnergy)
+        {
+            m_CurrentEnergy = i_CurrentEnergy;
+        }
+
         public override float GetMaxEnergy()
         {
             return m_MaxEnergyCapacity;
         }
 
-        public void AddWheel(Wheels i_Wheel)
+        public void SetMaxEnergy(float i_MaxEnergy)
         {
-            if (WheelsList.Count >= m_NumberOfWheels)
-            {
-                throw new InvalidOperationException("Cannot add more wheels than the defined number of wheels.");
-            }
-            WheelsList.Add(i_Wheel);
+            m_MaxEnergyCapacity = i_MaxEnergy;
         }
 
-        public void InflateAllWheelsToMax()
+        public void SetFuelType(eFuelType i_FuelType)
         {
-            foreach (Wheels wheel in WheelsList)
-            {
-                wheel.InflateToMax();
-            }
+            m_FuelType = i_FuelType;
         }
 
-        public override StringBuilder PrintVehicleDetails()
+        public eFuelType? GetFuelType()
         {
-            StringBuilder details = new StringBuilder();
-            details.AppendLine($"Model Name: {m_ModelName}");
-            details.AppendLine($"License Number: {m_LicenseNumber}");
-            details.AppendLine($"Number of Wheels: {m_NumberOfWheels}");
-            details.AppendLine($"Energy Type: {m_EnergyType}");
-            details.AppendLine($"Max Energy Capacity: {m_MaxEnergyCapacity}");
-            details.AppendLine($"Current Energy: {m_CurrentEnergy}");
-            details.AppendLine($"Energy Percentage: {m_EnergyPercentage * 100}%");
-            details.AppendLine("Wheels Details:");
-            foreach (var wheel in WheelsList)
+            return m_FuelType;
+        }
+
+        public void Refuel(float i_FuelAmount, eFuelType i_FuelType)
+        {
+            if (i_FuelAmount < 0 || GetCurrentEnergy() + i_FuelAmount > GetMaxEnergy())
             {
-                details.AppendLine($"- Manufacturer: {wheel.m_ManufacturerName}, Current Pressure: {wheel.m_CurrentAirPressure}, Max Pressure: {Wheels.GetMaxWheelPressure(this)}");
+                throw new ValueOutOfRangeException(0, (GetMaxEnergy() - GetCurrentEnergy()), $"The value is not in the range {0} to {(GetMaxEnergy() - GetCurrentEnergy())}.");
             }
-            return details;
+
+            if (i_FuelType != GetFuelType())
+            {
+                throw new ArgumentException("Please use the correct type of fuel");
+            }
+
+            m_CurrentEnergy += i_FuelAmount;
+            SetEnergyPercentage();
+        }
+
+        public void Recharge(float i_Hours)
+        {
+            if (i_Hours < 0 || GetCurrentEnergy() + i_Hours > GetMaxEnergy())
+            {
+                throw new ValueOutOfRangeException(0, (GetMaxEnergy() - GetCurrentEnergy()), $"The value is not in the range {0} to {(GetMaxEnergy() - GetCurrentEnergy())}.");
+            }
+
+            m_CurrentEnergy += i_Hours;
+            SetEnergyPercentage();
+        }
+
+        public sealed override StringBuilder PrintVehicleDetails()
+        {
+            string tiresDetails = "Tires:" + Environment.NewLine;
+            for (int i = 0; i < m_Wheels.Count; i++)
+            {
+                tiresDetails += $"   - Tire {i + 1}: {m_Wheels[i].m_CurrentAirPressure} psi, {m_Wheels[i].m_ManufacturerName}" + Environment.NewLine;
+            }
+
+            StringBuilder vehicleDetails = new StringBuilder();
+            vehicleDetails.AppendLine($"{m_TypeName} Details:");
+            vehicleDetails.AppendLine("----------------------");
+            vehicleDetails.AppendLine($"Model Name: {m_ModelName}");
+            vehicleDetails.AppendLine($"License Number: {m_LicenseNumber}");
+            vehicleDetails.AppendLine($"Energy Percentage: {m_EnergyPercentage * 100:F2}%");
+            vehicleDetails.AppendLine($"Electric: {m_IsElectric}");
+            if (m_IsElectric)
+            {
+                vehicleDetails.AppendLine($"Battery Capacity: {m_MaxEnergyCapacity:F1} H");
+                vehicleDetails.AppendLine($"Current Battery: {m_CurrentEnergy:F1} H");
+            }
+            else
+            {
+                vehicleDetails.AppendLine($"Fuel type: {m_FuelType}");
+                vehicleDetails.AppendLine($"Fuel Capacity: {m_MaxEnergyCapacity:F1} L");
+                vehicleDetails.AppendLine($"Current Fuel Left: {m_CurrentEnergy:F1} L");
+            }
+
+            vehicleDetails.AppendLine(tiresDetails);
+
+            return vehicleDetails;
         }
     }
 

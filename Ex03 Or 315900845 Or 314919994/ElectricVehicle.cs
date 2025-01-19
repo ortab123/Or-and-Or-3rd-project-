@@ -2,25 +2,10 @@
 
 namespace Ex03_Or_315900845_Or_314919994
 {
-    // Maybe check for option to do it fully abstract:
     public abstract class ElectricVehicle : Vehicle
     {
         protected float m_CurrentBatteryTimeLeft { get; private set; }
         protected float m_BatteryTimeCapacity { get; set; }
-
-        protected ElectricVehicle()
-        {
-
-        }
-
-        public static void ValidateBatteryTime(float i_BatteryCurrentAmount, float i_BatteryTimeCapacity)
-        {
-            if (i_BatteryCurrentAmount < 0 || i_BatteryCurrentAmount > i_BatteryTimeCapacity)
-            {
-                throw new ValueOutOfRangeException(0, i_BatteryTimeCapacity, $"Battery current amount ({i_BatteryCurrentAmount} H)" +
-                    $" is not in range. {i_BatteryCurrentAmount} - {i_BatteryTimeCapacity}");
-            }
-        }
 
         public void SetCurrentEnergy(float i_Hours)
         {

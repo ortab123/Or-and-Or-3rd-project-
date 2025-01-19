@@ -17,6 +17,11 @@ namespace Ex03_Or_315900845_Or_314919994
             m_BatteryTimeCapacity = k_BatteryTimeCapacity;
         }
 
+        public override eVehicleType GetEVehicleType()
+        {
+            return eVehicleType.ElectricCar;
+        }
+
         public override int GetWheelsNumber()
         {
             return k_WheelsNumber;

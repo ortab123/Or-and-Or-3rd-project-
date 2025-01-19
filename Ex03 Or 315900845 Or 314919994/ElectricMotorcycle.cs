@@ -11,11 +11,17 @@ namespace Ex03_Or_315900845_Or_314919994
         private const int k_WheelsNumber = 2;
 
         private eLicenseType m_LicenseType { get; set; }
+
         private int m_EngineVolume { get; set; }
 
         public ElectricMotorcycle()
         {
             m_BatteryTimeCapacity = k_BatteryTimeCapacity;
+        }
+
+        public override eVehicleType GetEVehicleType()
+        {
+            return eVehicleType.ElectricMotorcycle;
         }
 
         public override int GetWheelsNumber()

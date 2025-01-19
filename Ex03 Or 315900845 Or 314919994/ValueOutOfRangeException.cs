@@ -17,13 +17,6 @@ namespace Ex03_Or_315900845_Or_314919994
             m_MaxValue = i_MaxValue;
         }
 
-        //public ValueOutOfRangeException(float i_MinValue, float i_MaxValue, string i_Message, Exception i_InnerException)
-        //    : base(i_Message, i_InnerException)
-        //{
-        //    m_MinValue = i_MinValue;
-        //    m_MaxValue = i_MaxValue;
-        //}
-
         public ValueOutOfRangeException(float i_MinValue, float i_MaxValue, string i_Message)
             : base(i_Message)
         {

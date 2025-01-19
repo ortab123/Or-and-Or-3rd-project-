@@ -28,9 +28,29 @@ namespace Ex03_Or_315900845_Or_314919994
             m_Status = eVehicleStatus.InRepair;
         }
 
-        public VehicleInGarage()
+        public static bool IsValidOwnerName(string i_OwnerName)
         {
+            bool isValid = !string.IsNullOrWhiteSpace(i_OwnerName);
 
+            if (isValid)
+            {
+                foreach (char c in i_OwnerName)
+                {
+                    if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+                    {
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+
+            return isValid;
         }
+
+        public static bool IsValidPhoneNumber(string i_PhoneNumber)
+        {
+            return i_PhoneNumber.Length == 10 && long.TryParse(i_PhoneNumber, out _);
+        }
+
     }
 }

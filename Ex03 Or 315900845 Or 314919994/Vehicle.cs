@@ -17,10 +17,10 @@ namespace Ex03_Or_315900845_Or_314919994
 
         public void SetEnergyPercentage()
         {
-            m_EnergyPercentage = getEnergyPercentage();
+            m_EnergyPercentage = GetEnergyPercentage();
         }
 
-        protected float getEnergyPercentage()
+        protected float GetEnergyPercentage()
         {
             return GetCurrentEnergy() / GetMaxEnergy();
         }
@@ -38,6 +38,11 @@ namespace Ex03_Or_315900845_Or_314919994
             m_Wheels = i_Wheels;
         }
 
+        public void SetVehicleModel(string i_Model)
+        {
+            m_ModelName = i_Model;
+        }
+
         public void InflateAllWheelsToMax()
         {
             foreach (Wheels wheel in m_Wheels)
@@ -45,6 +50,7 @@ namespace Ex03_Or_315900845_Or_314919994
                 wheel.InflateToMax();
             }
         }
+        public abstract eVehicleType GetEVehicleType();
 
         public abstract StringBuilder PrintVehicleDetails();
 

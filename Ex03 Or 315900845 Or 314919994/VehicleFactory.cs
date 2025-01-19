@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,10 @@ namespace Ex03_Or_315900845_Or_314919994
                 {
                     initializeBatteryVehicle(electricVehicle, i_AdditionalParameters);
                 }
+                else if(i_Vehicle is Other otherVehicle)
+                {
+                    initializeOtherVehicle(otherVehicle, i_AdditionalParameters);
+                }
 
                 if (i_Vehicle is FuelMotorcycle || i_Vehicle is ElectricMotorcycle)
                 {
@@ -104,15 +109,36 @@ namespace Ex03_Or_315900845_Or_314919994
                     truck.SetRefrigeration(refrigeration);
                 }
 
+                if(i_Vehicle is Other other)
+                {
+                    string typeName = (string)i_AdditionalParameters["TypeName"];
+                    bool isElectric = (bool)i_AdditionalParameters["IsElectric"];
+                    other.SetTypeName(typeName);
+                    other.SetIsElectricEngine(isElectric);
+                }
+
+                string model = (string)i_AdditionalParameters["Model"];
+                i_Vehicle.SetVehicleModel(model);
                 i_Vehicle.SetEnergyPercentage();
             }
 
             private static void initializeWheels(Vehicle i_Vehicle, Dictionary<string, object> i_AdditionalParameters)
             {
+                int wheelsCount;
+                float maxPressure;
+
                 try
                 {
-                    int wheelsCount = i_Vehicle.GetWheelsNumber();
-                    float maxPressure = i_Vehicle.GetMaxTirePressure();
+                    if (i_Vehicle is Other otherVehicle)
+                    {
+                        wheelsCount = (int)i_AdditionalParameters["WheelsCount"];
+                        maxPressure = (float)i_AdditionalParameters["WheelMaxPressure"];
+                    }
+                    else
+                    {
+                        wheelsCount = i_Vehicle.GetWheelsNumber();
+                        maxPressure = i_Vehicle.GetMaxTirePressure();
+                    }
 
                     List<Wheels> wheelsList = new List<Wheels>();
 
@@ -164,46 +190,6 @@ namespace Ex03_Or_315900845_Or_314919994
                 }
             }
 
-            public static Vehicle InitializeNewVehicle(
-            string i_VehicleTypeName,
-            int i_WheelCount,
-            bool i_IsElectric,
-            string i_ModelName,
-            string i_LicenseNumber,
-            float i_EnergyPercentage,
-            List<Wheels> i_Wheels)
-            {
-                Vehicle newVehicle;
-
-                // יצירת רכב מסוג 'Other'
-                newVehicle = new Other()
-                {
-                    m_ModelName = i_ModelName,
-                    m_LicenseNumber = i_LicenseNumber,
-                    m_EnergyPercentage = i_EnergyPercentage
-                };
-
-                // הגדרת הגלגלים
-                if (i_Wheels.Count != i_WheelCount)
-                {
-                    throw new ArgumentException("The number of wheels provided does not match the specified wheel count.");
-                }
-                newVehicle.SetWheels(i_Wheels);
-
-                // הגדרת סוג האנרגיה
-                if (i_IsElectric)
-                {
-                    ((Other)newVehicle).SetElectricEngine();
-                }
-                else
-                {
-                    ((Other)newVehicle).SetFuelEngine();
-                }
-
-                return newVehicle;
-            }
-
-
             private static T validateParameter<T>(Dictionary<string, object> i_Parameters, string i_Key)
             {
                 if (!i_Parameters.ContainsKey(i_Key))
@@ -227,7 +213,20 @@ namespace Ex03_Or_315900845_Or_314919994
                 i_Vehicle.SetCurrentEnergy((float)i_AdditionalParameters["CurrentBatteryAmount"]);
             }
 
+            private static void initializeOtherVehicle(Other i_Vehicle, Dictionary<string, object> i_AdditionalParameters)
+            {
+                i_Vehicle.SetMaxEnergy((float)i_AdditionalParameters["MaxEnergy"]);
+
+                if ((bool)i_AdditionalParameters["IsElectric"])
+                {
+                    i_Vehicle.SetCurrentEnergy((float)i_AdditionalParameters["CurrentBatteryAmount"]);
+                }
+                else
+                {
+                    i_Vehicle.SetCurrentEnergy((float)i_AdditionalParameters["CurrentFuelAmount"]);
+                    i_Vehicle.SetFuelType((eFuelType)i_AdditionalParameters["FuelType"]);
+                }
+            }
         }
     }
-
 }

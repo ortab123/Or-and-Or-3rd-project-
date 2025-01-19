@@ -11,7 +11,6 @@ namespace Ex03_Or_315900845_Or_314919994
         public const float k_FuelTankCapacity = 125f;
         private const eFuelType k_FuelType = eFuelType.Soler;
         private const int k_WheelsNumber = 14;
-
         private bool m_Refrigeration { set; get; }
         private float m_CargoVolume { set; get; }
 
@@ -19,6 +18,11 @@ namespace Ex03_Or_315900845_Or_314919994
         {
             m_FuelType = k_FuelType;
             m_FuelTankCapacity = k_FuelTankCapacity;
+        }
+
+        public override eVehicleType GetEVehicleType()
+        {
+            return eVehicleType.ElectricCar;
         }
 
         public override int GetWheelsNumber()
@@ -41,9 +45,9 @@ namespace Ex03_Or_315900845_Or_314919994
             m_CargoVolume = i_CargoVolume;
         }
 
-        public void SetRefrigeration(bool i_Refrigation)
+        public void SetRefrigeration(bool i_Refrigeration)
         {
-            m_Refrigeration = i_Refrigation;
+            m_Refrigeration = i_Refrigeration;
         }
 
         public sealed override StringBuilder PrintVehicleDetails()

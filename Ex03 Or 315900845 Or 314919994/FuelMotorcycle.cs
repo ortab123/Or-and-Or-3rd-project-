@@ -10,7 +10,6 @@ namespace Ex03_Or_315900845_Or_314919994
         public const float k_FuelTankCapacity = 6.2f;
         private const eFuelType k_FuelType = eFuelType.Octan98;
         private const int k_WheelsNumber = 2;
-
         private eLicenseType m_LicenseType { get; set; }
         private int m_EngineVolume { get; set; }
 
@@ -18,6 +17,11 @@ namespace Ex03_Or_315900845_Or_314919994
         {
             m_FuelType = k_FuelType;
             m_FuelTankCapacity = k_FuelTankCapacity;
+        }
+
+        public override eVehicleType GetEVehicleType()
+        {
+            return eVehicleType.FuelMotorcycle;
         }
 
         public override int GetWheelsNumber()
