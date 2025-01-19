@@ -52,5 +52,24 @@ namespace Ex03_Or_315900845_Or_314919994
             return i_PhoneNumber.Length == 10 && long.TryParse(i_PhoneNumber, out _);
         }
 
+        public static bool ValidateLicenseNumber(string i_LicenseNumber)
+        {
+            bool validatedNumber = false;
+
+            if (!string.IsNullOrEmpty(i_LicenseNumber) && (i_LicenseNumber.Length == 8 || i_LicenseNumber.Length == 7))
+            {
+                validatedNumber = true;
+                foreach (char c in i_LicenseNumber)
+                {
+                    if (!char.IsDigit(c))
+                    {
+                        validatedNumber = false;
+                        break;
+                    }
+                }
+            }
+
+            return validatedNumber;
+        }
     }
 }

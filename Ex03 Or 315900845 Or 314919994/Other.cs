@@ -9,11 +9,9 @@ namespace Ex03_Or_315900845_Or_314919994
     public class Other : Vehicle
     {
         public bool m_IsElectric;
-
         public eFuelType? m_FuelType { get; private set; }
         public float m_MaxEnergyCapacity { get; private set; }
         public float m_CurrentEnergy { get; private set; }
-
         private string m_TypeName;
         public int m_NumberOfWheels { get; private set; }
 
