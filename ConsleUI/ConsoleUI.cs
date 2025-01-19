@@ -88,7 +88,7 @@ namespace ConsleUI
             Console.WriteLine("Enter license number:");
             string licenseNumber = Console.ReadLine();
 
-            while(!validateLicenseNumber(licenseNumber))
+            while(!VehicleInGarage.ValidateLicenseNumber(licenseNumber))
             {
                 Console.WriteLine("Invalid license number, please try again:");
                 licenseNumber = Console.ReadLine();
@@ -788,24 +788,5 @@ namespace ConsleUI
             }
         }
 
-        private static bool validateLicenseNumber(string i_LicenseNumber)
-        {
-            bool validatedNumber = false;
-
-            if(!string.IsNullOrEmpty(i_LicenseNumber) && (i_LicenseNumber.Length == 8 || i_LicenseNumber.Length == 7))
-            {
-                validatedNumber = true;
-                foreach(char c in i_LicenseNumber)
-                {
-                    if(!char.IsDigit(c))
-                    {
-                        validatedNumber = false;
-                        break;
-                    }
-                }
-            }
-
-            return validatedNumber;
-        }
     }
 }

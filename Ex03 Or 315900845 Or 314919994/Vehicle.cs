@@ -11,10 +11,6 @@ namespace Ex03_Or_315900845_Or_314919994
         public float m_EnergyPercentage { get; set; }
         protected List<Wheels> m_Wheels { get; set; } = new List<Wheels>();
 
-        protected Vehicle()
-        {
-        }
-
         public void SetEnergyPercentage()
         {
             m_EnergyPercentage = GetEnergyPercentage();
@@ -50,6 +46,7 @@ namespace Ex03_Or_315900845_Or_314919994
                 wheel.InflateToMax();
             }
         }
+
         public abstract eVehicleType GetEVehicleType();
 
         public abstract StringBuilder PrintVehicleDetails();

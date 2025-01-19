@@ -16,24 +16,6 @@ namespace Ex03_Or_315900845_Or_314919994
             m_CurrentAirPressure = i_CurrentAirPressure;
         }
 
-        public static void ValidateTirePressure(float i_TirePressure, float i_TireMaxPressure)
-        {
-            if (i_TirePressure < 0 || i_TirePressure > i_TireMaxPressure)
-            {
-                throw new ValueOutOfRangeException(0, i_TireMaxPressure);
-            }
-        } 
-
-        public void SetTireCurrentPressure(float i_TirePressure)
-        {
-            m_CurrentAirPressure = i_TirePressure;
-        }
-
-        public void SetTireMaxPressure(float i_TireMaxPressure)
-        {
-            m_MaxAirPressure = i_TireMaxPressure;
-        }
-
         public static float GetMaxWheelPressure(Vehicle i_Vehicle)
         {
             float maxWheelPressure;

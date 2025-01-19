@@ -9,9 +9,7 @@ namespace Ex03_Or_315900845_Or_314919994
         public const float k_MaxTirePressure = 32f;
         public const float k_BatteryTimeCapacity = 2.9F;
         private const int k_WheelsNumber = 2;
-
         private eLicenseType m_LicenseType { get; set; }
-
         private int m_EngineVolume { get; set; }
 
         public ElectricMotorcycle()
